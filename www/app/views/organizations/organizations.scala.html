@@ -1,0 +1,62 @@
+@(orgData: OrganizationData,
+menuData: SideMenuData,
+addUserForm: Form[_],
+updateOrgForm: Form[_],
+createTokenForm: Form[_],
+createTeamForm: Form[_])(implicit request: RequestHeader)
+
+@dashboard(menuData) {
+
+
+            <div class="btn-group btn-group-justified btn-group-lg">
+                <div class="btn-group btn-group-lg">
+                    <a href="@routes.Alerts.organizationAlerts(orgData.organization.name)"
+                       @if(orgData.role == Role.Viewer) { disabled}
+                       type="button" class="btn btn-default">Alerts</a>
+                </div>
+                <div class="btn-group btn-group-lg">
+                    <a href="@routes.Metrics.organizationMetrics(orgData.organization.name)"
+                       type="button" class="btn btn-default">Metrics</a>
+                </div>
+            </div>
+
+        <p></p>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Messages("cave.dashboard.organizationDetails.heading", orgData.organization.name)</h3>
+            </div>
+            <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>Name</dt>
+                <dd>@orgData.organization.name</dd>
+                <dt>Your role</dt>
+                <dd>@views.html.tags.roleBadge(orgData.role)</dd>
+                @if(orgData.role != Role.Viewer) {
+                    <dt>Email</dt>
+                    <dd>@orgData.organization.email</dd>
+                    <dt>Notification Url</dt>
+                    <dd>@orgData.organization.notificationUrl</dd>
+                    <dt>Organization Tokens</dt>
+                    <dd>@views.html.tags.tokens(orgData.organization.tokens, orgData.role, orgData.organization.name, None)</dd>
+                }
+            </dl>
+                @if(orgData.role == Role.Admin) {
+                        <p class="clearfix">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editOrgModal">Edit</button>
+
+                            @if(orgData.organization.tokens.size < 3) {
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTokenModal">Create new token</button>
+                                @modal.createTokenModal(createTokenForm)
+                            }
+                            @views.html.modal.updateOrgModal(updateOrgForm)
+                        </p>
+                }
+            </div>
+        </div>
+
+            @if(orgData.role != Role.Viewer) {
+                @views.html.organizations.teams(orgData.teams, orgData.role, createTeamForm)
+                @views.html.common.users(addUserForm, orgData.members, orgData.role, orgData.organization)
+            }
+}

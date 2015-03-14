@@ -1,0 +1,60 @@
+@(menuData: controllers.SideMenuData)(content: Html = Html(""))(implicit request: RequestHeader)
+
+@import play.api.{Logger, Play}
+@import helper._
+@import play.api.Play
+@import collection.immutable.ListMap
+
+@mainTemplate("CAVE") {
+
+@(menuData match {
+    case SideMenuData(_, _, None, None, _) => common.breadcrumb(ListMap("Home" -> routes.Application.index))
+
+    case SideMenuData(_, _, Some(organization), None, _) => common.breadcrumb(ListMap("Home" -> routes.Application.index,
+                                    organization.name -> routes.Organizations.organization(organization.name)))
+
+    case SideMenuData(_, _, Some(organization), Some(team), Some(roleInOrganization)) if roleInOrganization == Role.Team
+                                => common.breadcrumb(ListMap("Home" -> routes.Application.index,
+                                   organization.name -> "",
+                                   team.name -> routes.Teams.team(organization.name, team.name)))
+
+    case SideMenuData(_, _, Some(organization), Some(team), _) =>
+        common.breadcrumb(ListMap("Home" -> routes.Application.index,
+            organization.name -> routes.Organizations.organization(organization.name),
+            team.name -> routes.Teams.team(organization.name, team.name)))
+})
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Messages("cave.dashboard.myTeamsList.heading")</h3>
+            </div>
+            <div class="panel-body">
+                @organizations.teamsLinks(menuData)
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Messages("cave.dashboard.organizationList.heading")</h3>
+            </div>
+            <div class="panel-body">
+                @organizations.organizationsLinks(menuData)
+                <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createOrgModal">
+                    @Messages("cave.profile.organizationList.createNew")
+                </a>
+                @modal.createOrgModal()
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        @if(menuData.selectedOrganization.isDefined || menuData.selectedTeam.isDefined)  {
+            @content
+        } else {
+            <div class="alert alert-info">
+                <p>No Organization or Team selected</p>
+            </div>
+        }
+    </div>
+</div>
+}

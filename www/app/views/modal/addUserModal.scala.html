@@ -1,0 +1,63 @@
+@(addUser:Form[_], organization: Organization, team: Option[Team])
+@import helper._
+@import com.gilt.cavellc.models.Role
+@implicitFieldConstructor = @{ FieldConstructor(views.html.forms.inputFieldConstructorWithLabels.f) }
+<!-- Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">
+                    @team match {
+                        case Some(t) => { @Messages("cave.team.addUser.modal.title", organization.name, t.name) }
+                        case None => { @Messages("cave.organizations.addUser.modal.title", organization.name) }
+                    }
+
+                </h4>
+            </div>
+            @helper.form(action = routes.Application.addUser()) {
+            <div class="modal-body">
+                <fieldset>
+                    @helper.inputText(
+                        addUser("email"),
+                        '_label -> "Email",
+                        'placeholder -> "Email",
+                        'class -> "form-control",
+                        'type -> "email",
+                        'required -> ""
+                    )
+                    @helper.inputText(
+                        addUser("organization"),
+                        'type -> "hidden",
+                        '_label -> "",
+                        '_class -> "hidden",
+                        'required -> ""
+                     )
+                    @helper.inputText(
+                        addUser("team"),
+                        'type -> "hidden",
+                        '_label -> "",
+                        '_class -> "hidden",
+                        'required -> ""
+                     )
+                    @helper.select(
+                        addUser("role"),
+                        helper.options(Role.all.filterNot(_ == Role.Team).map(_.toString).toList),
+                        '_label -> "Role",
+                        'class -> "selectpicker",
+                        'required -> ""
+                    )
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>

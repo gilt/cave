@@ -1,0 +1,42 @@
+@(alerts: Seq[Alert], organizationName: String, teamName: Option[String],
+  paging: Paging, breadcrumb: collection.immutable.ListMap[String, _],
+createAlertForm: Form[_])(implicit request: RequestHeader)
+
+@mainTemplate("CAVE") {
+    @common.breadcrumb(breadcrumb)
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                <a href='metrics' type="button" class="btn btn-default">Metrics</a>
+            </p>
+            @if(alerts.nonEmpty) {
+                <div class="panel panel-default">
+                    <div class="panel-heading">Alerts</div>
+                    <div class="panel-body">
+                        <ul class="list-groupa alerts">
+                            @alerts.map { a =>
+                                <li data-rel="alerts/@a.id.getOrElse("")" class="clearfix list-group-item">
+                                        @views.html.alerts.alertFragment(a, organizationName, teamName)
+                                </li>
+                            }
+                        </ul>
+                        <p style="text-align: right;">
+                            @paging.prev.map { prev =>
+                                <a href="@prev" type="button" class="btn btn-default">&laquo; Previous Page</a>
+                            }
+                            @paging.next.map { next =>
+                                <a href="@next" type="button" class="btn btn-default">Next Page &raquo;</a>
+                            }
+                        </p>
+                    </div>
+                </div>
+            } else {
+                <div class="alert alert-info">
+                    <p>No Alerts defined</p>
+                </div>
+            }
+            <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAlertModal">Create Alert</a>
+            @modal.createAlertModal(createAlertForm)
+        </div>
+    </div>
+}

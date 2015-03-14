@@ -1,0 +1,1991 @@
+{
+  "name": "Cave LLC",
+  "namespace": "com.gilt.cavellc",
+  "base_url": "https://api.cavellc.io",
+  "description": "Cave's powerful APIs provide analytics over very large sets of time series data. Cave makes it easy to collect billions of events, with innate features to combine any time series into new time series. One of the enabling features of Cave is the ability to do alerting with a very high signal to noise ratio to monitor any business application of web application.",
+
+  "enums": {
+    "role": {
+      "description": "The role that a user has in an organization or team",
+      "values": [
+        {
+          "name": "admin",
+          "description": "The administrator of the organization/team. Can do all operations."
+        },
+        {
+          "name": "member",
+          "description": "A member of the organization/team. Can do most operations."
+        },
+        {
+          "name": "viewer",
+          "description": "A read-only user of the organization/team. Can only view data."
+        },
+        {
+          "name": "team",
+          "description": "A user associated indirectly to an organization, through at least one team."
+        }
+      ]
+    },
+
+    "aggregator": {
+      "description": "An aggregator for metric data",
+      "values": [
+        {
+          "name": "count",
+          "description": "The number of events in the metric data set."
+        },
+        {
+          "name": "min",
+          "description": "The smallest value in the metric data set."
+        },
+        {
+          "name": "max",
+          "description": "The largest value in the metric data set."
+        },
+        {
+          "name": "mean",
+          "description": "The average of the values in the metric data set."
+        },
+        {
+          "name": "mode",
+          "description": "The most frequent value in the metric data set."
+        },
+        {
+          "name": "median",
+          "description": "The middle value in the metric data set."
+        },
+        {
+          "name": "sum",
+          "description": "The sum of all values in the metric data set."
+        },
+        {
+          "name": "stddev",
+          "description": "The standard deviation of all values in the metric data set."
+        },
+        {
+          "name": "p99",
+          "description": "The 99th percentile value in the metric data set."
+        },
+        {
+          "name": "p999",
+          "description": "The 99.9th percentile value in the metric data set."
+        },
+        {
+          "name": "p95",
+          "description": "The 95th percentile value in the metric data set."
+        },
+        {
+          "name": "p90",
+          "description": "The 90th percentile value in the metric data set."
+        }
+      ]
+    }
+  },
+
+  "models": {
+
+    "issue": {
+      "description": "An issue affecting CAVE right now, or recently closed",
+      "fields": [
+        {
+          "name": "description",
+          "type": "string",
+          "description": "The description of the issue"
+        },
+        {
+          "name": "since",
+          "type": "date-time-iso8601",
+          "description": "The time this issue has begun"
+        },
+        {
+          "name": "until",
+          "type": "date-time-iso8601",
+          "description": "The time this issue has been resolved",
+          "required": false
+        }
+      ]
+    },
+
+    "status": {
+      "description": "The list of current and recent issues affecting CAVE",
+      "fields": [
+        {
+          "name": "current",
+          "type": "[issue]",
+          "description": "Ongoing issues affecting CAVE"
+        },
+        {
+          "name": "recent",
+          "type": "[issue]",
+          "description": "Recent issues that affected CAVE"
+        }
+      ]
+    },
+
+    "user": {
+      "description": "A user is a real-world person who is using the CAVE service. The user signs up for CAVE, and then interacts with the service through the APIs. Every call to the API needs to use a token that is obtained after a successful login.",
+      "fields": [
+        {
+          "name": "first_name",
+          "type": "string",
+          "description": "First name of this user"
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "description": "Last name of this user"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "Email of this user"
+        }
+      ]
+    },
+
+    "user_organization": {
+      "description": "An organization associated with a user.",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Name of organization"
+        },
+        {
+          "name": "role",
+          "type": "role",
+          "description": "The role this user has in this organization."
+        }
+      ]
+    },
+
+    "user_team": {
+      "description": "A team associated with a user.",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Name of team"
+        },
+        {
+          "name": "role",
+          "type": "role",
+          "description": "The role this user has in this team."
+        }
+      ]
+    },
+
+    "auth": {
+      "description": "Authorization information for a user",
+      "fields": [
+        {
+          "name": "token",
+          "type": "string",
+          "description": "Authorization token for this user"
+        },
+        {
+          "name": "expires",
+          "type": "date-time-iso8601",
+          "description": "Date/time when this token expires and user must login again"
+        }
+      ]
+    },
+
+    "member": {
+      "description": "An organization or team user, with the role",
+      "fields": [
+        {
+          "name": "user",
+          "type": "user",
+          "description": "User data"
+        },
+        {
+          "name": "role",
+          "type": "role",
+          "description": "The role of the user in the organization or team."
+        }
+      ]
+    },
+
+    "organization": {
+      "description": "An organization is a real-world customer of the CAVE service. Each organization is identified by a name, which must be unique. Each organization can have one or more teams associated with it, allowing for data to be segregated. Security is managed with organization tokens. A token is created automatically for every new organization.",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Name of this organization. Must be unique in the CAVE service. Must be URL friendly."
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "The email associated with this organization."
+        },
+        {
+          "name": "notification_url",
+          "type": "string",
+          "description": "The URL where CAVE should post notifications for this organization."
+        },
+        {
+          "name": "tokens",
+          "type": "[token]",
+          "description": "The tokens associated with this organization. Use one of these to authenticate requests that require an organization owner. There must be at least one token for an organization. A default token is created automatically for newly created organizations, and it's not possible to delete the last organization token."
+        }
+      ]
+    },
+
+    "team": {
+      "description": "Each team has its own data. A team can push data into CAVE by using an active token. A team can have one or more tokens associated with it, allowing for tokens to be rotated, for security purposes. A team is solely responsible for administration of its tokens. A team token is created automatically for every new team.",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Name of this team. Must be unique for the organization."
+        },
+        {
+          "name": "tokens",
+          "type": "[token]",
+          "description": "The tokens associated with this team. Use one of these to authenticate requests that require a team owner. There must be at least one token for a team. A default token is created automatically for newly created teams, and it's not possible to delete the last team token."
+        }
+      ]
+    },
+
+    "token": {
+      "description": "A token is a security string, used to authenticate requests. Some requests can only be executed by the organization owner, and these must be authenticated with an organization token. Other requests can only be executed by a team owner, and these can be authenticated with either a team token, or an organization token.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "A unique identifier for a token. This is only useful for the delete operation."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "A description for the token. Useful to describe what a token is for."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "The actual token string that must be used to authenticate requests. Pass this as a Bearer token in the Authorization field of the HTTP request. See http://tools.ietf.org/html/rfc6750 for details."
+        },
+        {
+          "name": "created",
+          "type": "date-time-iso8601",
+          "description": "The date on which the token was created. This is a read-only field."
+        }
+      ]
+    },
+
+    "metric": {
+      "description": "This entity encapsulates metric data that can be stored in CAVE.",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The name of the metric. This should describe what the metric is for, as well as the unit of measurement."
+        },
+        {
+          "name": "tags",
+          "type": "map",
+          "description": "The metric tags, which are key-value pairs of strings. These describe and categorise the metric and where/how it was collected.",
+          "required": false
+        },
+        {
+          "name": "timestamp",
+          "type": "long",
+          "description": "The timestamp of this data point, as a number of seconds since the Epoch."
+        },
+        {
+          "name": "value",
+          "type": "double",
+          "description": "The value of this data point. There is no unit of measurement, but this should be implied from the metric name."
+        }
+      ]
+    },
+
+    "metric_data": {
+      "description": "This entity encapsulates a data point for a metric.",
+      "fields": [
+        {
+          "name": "time",
+          "type": "date-time-iso8601",
+          "description": "The timestamp of this data point, as a number of seconds since the Epoch."
+        },
+        {
+          "name": "value",
+          "type": "double",
+          "description": "The value of this data point. There is no unit of measurement, but this should be implied from the metric name."
+        }
+      ]
+    },
+
+    "metric_data_bulk": {
+      "description": "This entity encapsulates data for a metric.",
+      "fields": [
+        {
+          "name": "metrics",
+          "type": "[metric_data]",
+          "description": "A sequence of data points."
+        }
+      ]
+    },
+
+    "metric_info": {
+      "description": "This entity encapsulates information about a metric.",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The name of the metric."
+        },
+        {
+          "name": "tags",
+          "type": "[string]",
+          "description": "The tags of the metric."
+        }
+      ]
+    },
+
+    "alert": {
+      "description": "This entity describes a configured alert, what to check and how often.",
+      "fields": [
+	    {
+	      "name": "id",
+	      "type": "string",
+	      "required": false,
+	      "description": "The alert identifier."
+	    },
+	    {
+	      "name": "description",
+	      "type": "string",
+	      "description": "A description for this alert. Should be descriptive about the metric(s) and threshold(s) involved"
+	    },
+	    {
+	      "name": "enabled",
+	      "type": "boolean",
+	      "description": "A state for this alert. If not enabled, the alert is not checked."
+	    },
+	    {
+	      "name": "period",
+	      "type": "string",
+	      "example": "15m",
+	      "description": "How often the condition should be checked. Must contain a number followed by 'm', 'h', or 'd'."
+	    },
+	    {
+	      "name": "condition",
+	      "type": "string",
+	      "description": "The alarm condition to check. See documentation for accepted formats."
+        },
+        {
+          "name": "handbook_url",
+          "type": "string",
+          "description": "The URL of the alert handbook.",
+          "required": false
+	    },
+	    {
+	      "name": "routing",
+	      "type": "map",
+	      "required": false,
+	      "description": "Information for routing the alert to the appropriate notification service."
+	    },
+	    {
+	      "name": "related_metrics",
+	      "type": "[alert_metric]",
+	      "required": false,
+	      "description": "Metrics related to this alert."
+	    }
+      ]
+    },
+
+    "alert_metric": {
+      "description": "Information about a metric related to an alert.",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The name of the metric."
+        },
+        {
+          "name": "tags",
+          "type": "map",
+          "description": "The metric tags."
+        },
+        {
+          "name": "aggregator",
+          "type": "aggregator",
+          "required": false,
+          "description": "The aggregation done on the metric. Only applies to aggregator metrics."
+        },
+        {
+          "name": "period_seconds",
+          "type": "long",
+          "required": false,
+          "description": "The period in seconds for the aggregation. Only applies to aggregator metrics."
+        }
+      ]
+    }
+  },
+
+  "resources": {
+
+    "status": {
+      "path": "",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/status",
+          "description": "Get list of current and recent issues affecting CAVE",
+          "interface": "getStatus",
+          "responses": {
+            "200": {
+              "type": "status"
+            }
+          }
+        }
+      ]
+    },
+
+    "user": {
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/register",
+          "description": "Register an email address for a new user",
+          "interface": "registerUser",
+          "parameters": [
+            {
+              "name": "email",
+              "type": "string",
+              "description": "The email for the new user"
+            }
+          ],
+          "responses": {
+            "202": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/confirm",
+          "description": "Confirm an email address and complete user registration",
+          "interface": "createUser",
+          "parameters": [
+            {
+              "name": "first_name",
+              "type": "string",
+              "description": "First name of this user"
+            },
+            {
+              "name": "last_name",
+              "type": "string",
+              "description": "Last name of this user"
+            },
+            {
+              "name": "password",
+              "type": "string",
+              "description": "Password for this user"
+            },
+            {
+              "name": "confirmation_token",
+              "type": "string",
+              "description": "The confirmation token received through email"
+            }
+          ],
+          "responses": {
+            "201": {
+              "type": "user"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/login",
+          "description": "Authenticate a user for using the CAVE API",
+          "interface": "loginUser",
+          "parameters": [
+            {
+              "name": "email",
+              "type": "string",
+              "description": "Email of the user"
+            },
+            {
+              "name": "password",
+              "type": "string",
+              "description": "Password of the user"
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "auth"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/forgot-password",
+          "description": "Request password reset for a user",
+          "interface": "requestResetPassword",
+          "parameters": [
+            {
+              "name": "email",
+              "type": "string",
+              "description": "The email for the user whose password to reset"
+            }
+          ],
+          "responses": {
+            "202": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/reset-password",
+          "description": "Reset the password for a user",
+          "interface": "resetPassword",
+          "parameters": [
+            {
+              "name": "password",
+              "type": "string",
+              "description": "New password for this user"
+            },
+            {
+              "name": "token",
+              "type": "string",
+              "description": "The confirmation token received through email"
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/info",
+          "description": "Retrieve user information",
+          "interface": "getUser",
+          "responses": {
+            "200": {
+              "type": "user"
+            }
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/info",
+          "description": "Update user information",
+          "interface": "updateUser",
+          "parameters": [
+            {
+              "name": "first_name",
+              "type": "string",
+              "description": "First name of this user",
+              "required": false
+            },
+            {
+              "name": "last_name",
+              "type": "string",
+              "description": "Last name of this user",
+              "required": false
+            },
+            {
+              "name": "password",
+              "type": "string",
+              "description": "Password for this user",
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "user"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations",
+          "description": "Retrieve organizations for this user",
+          "responses": {
+            "200": {
+              "type": "[user_organization]"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations/:name/teams",
+          "description": "Retrieve teams in this organization for this user",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "The name of organization to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[user_team]"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/search",
+          "description": "Search users that match the given substring",
+          "parameters": [
+            {
+              "name": "q",
+              "type": "string",
+              "description": "The search query string."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[user]"
+            }
+          }
+        }
+      ]
+    },
+
+    "organization": {
+      "operations": [
+        {
+          "method": "POST",
+          "description": "Create a new organization.",
+          "interface": "createOrganization",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "The organization name. Must be unique. Must be URL friendly."
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "description": "The email associated with this organization."
+            },
+            {
+              "name": "notification_url",
+              "type": "string",
+              "description": "The URL where CAVE should post notifications for this organization."
+            }
+          ],
+          "responses": {
+            "201": {
+              "type": "organization"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/:name",
+          "description": "Retrieve organization with given name.",
+          "interface": "getOrganization",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "The name of organization to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "organization"
+            }
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/:name",
+          "description": "Update the organization with the given name.",
+          "interface": "updateOrganization",
+          "parameters": [
+            {
+              "name": "email",
+              "type": "string",
+              "required": false,
+              "description": "New email for this organization."
+            },
+            {
+              "name": "notification_url",
+              "type": "string",
+              "required": false,
+              "description": "The URL where CAVE should post notifications for this organization."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "organization"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/:name",
+          "description": "Delete the organization with the given name.",
+          "interface": "deleteOrganization",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "The name of organization to delete."
+            }
+          ],
+          "responses": {
+            "204": {
+              "type": "unit",
+              "description": "Organization successfully deleted."
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/:name/metric-names/:metric",
+          "interface": "deleteOrganizationMetrics",
+          "responses": {
+            "204": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/:name/users",
+          "description": "Retrieve organization users.",
+          "interface": "getOrganizationUsers",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "The name of organization for which to retrieve the list of users."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[member]"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/:name/users",
+          "description": "Add user to organization.",
+          "interface": "createOrganizationUser",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "The name of organization to which to add a user."
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "description": "The email of the user to add to this organization."
+            },
+            {
+              "name": "role",
+              "type": "role",
+              "description": "The role of the user in the organization."
+            }
+          ],
+          "responses": {
+            "202": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/:name/users/:email",
+          "description": "Modify role for user in organization.",
+          "interface": "updateOrganizationUser",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "The name of organization to modify."
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "description": "The email of the user in this organization."
+            },
+            {
+              "name": "role",
+              "type": "role",
+              "description": "The new role for the user in the organization."
+            }
+          ],
+          "responses": {
+            "202": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/:name/users/:email",
+          "description": "Delete user from organization.",
+          "interface": "deleteOrganizationUser",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "The name of organization."
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "description": "The email of the user to remove from this organization."
+            }
+          ],
+          "responses": {
+            "204": {
+              "type": "unit"
+            }
+          }
+        }
+      ]
+    },
+
+    "team": {
+      "path": "",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams",
+          "description": "Retrieve the list of teams associated with the given organization.",
+          "interface": "getTeams",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The name of organization whose teams to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[team]"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/organizations/:org/teams",
+          "description": "Create a new team for the given organization.",
+          "interface": "createTeam",
+          "parameters": [
+            {
+              "name": "org",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "description": "A name for the new team. Must be unique inside organization."
+            }
+          ],
+          "responses": {
+            "201": {
+              "type": "team"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams/:team",
+          "description": "Retrieve the team with given team name for the given organization.",
+          "interface": "getTeam",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The name of the team to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "team"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/organizations/:organization_name/teams/:team_name/metric-names/:metric",
+          "interface": "deleteTeamMetrics",
+          "responses": {
+            "204": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams/:team/users",
+          "description": "Retrieve the users for the team with given team name for the given organization.",
+          "interface": "getTeamUsers",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The name of the team to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[member]"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/organizations/:organization/teams/:team/users",
+          "description": "Add user to the team with given team name for the given organization.",
+          "interface": "createTeamUser",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The name of the team to retrieve."
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "description": "The email of the user to add to the team."
+            },
+            {
+              "name": "role",
+              "type": "role",
+              "description": "The role this user has in the team."
+            }
+          ],
+          "responses": {
+            "202": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/organizations/:organization/teams/:team/users/:email",
+          "description": "Modify role of user in team.",
+          "interface": "updateTeamUser",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The name of the team."
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "description": "The email of the user."
+            },
+            {
+              "name": "role",
+              "type": "role",
+              "description": "The new role for this user in the team."
+            }
+          ],
+          "responses": {
+            "202": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/organizations/:organization/teams/:team/users/:email",
+          "description": "Remove user from team.",
+          "interface": "deleteTeamUser",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The name of the team."
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "description": "The email of the user to remove from the team."
+            }
+          ],
+          "responses": {
+            "204": {
+              "type": "unit"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/organizations/:organization/teams/:team",
+          "description": "Delete the team with the given name from the given organization.",
+          "interface": "deleteTeam",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The name of the team to delete."
+            }
+          ],
+          "responses": {
+            "204": {
+              "type": "unit",
+              "description": "Team successfully deleted."
+            }
+          }
+        }
+      ]
+    },
+
+    "token": {
+      "path": "",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/tokens",
+          "description": "Retrieve the list of tokens associated with the given organization.",
+          "interface": "getOrganizationTokens",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[token]"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/organizations/:organization/tokens",
+          "description": "Create a new token for the given organization.",
+          "interface": "createOrganizationToken",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "description": "A description for the token. Useful to describe what a token is for."
+            }
+          ],
+          "responses": {
+            "201": {
+              "type": "token"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/tokens/:id",
+          "description": "Retrieve the token with given token ID for the given organization.",
+          "interface": "getOrganizationToken",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "The token identifier."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "token"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/organizations/:organization/tokens/:id",
+          "description": "Delete the token with the given ID from the given organization.",
+          "interface": "deleteOrganizationToken",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "Identifier of the token to delete."
+            }
+          ],
+          "responses": {
+            "204": {
+              "type": "unit",
+              "description": "Token successfully deleted."
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams/:team/tokens",
+          "description": "Retrieve the list of tokens associated with the given team of the given organization.",
+          "interface": "getTeamTokens",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "Name of the team whose tokens to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[token]"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/organizations/:organization/teams/:team/tokens",
+          "description": "Create a new token for the given team of the given organization.",
+          "interface": "createTeamToken",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The team name."
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "description": "A description for the token. Useful to describe what a token is for."
+            }
+          ],
+          "responses": {
+            "201": {
+              "type": "token"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams/:team/tokens/:id",
+          "description": "Retrieve the token with given token ID for the given team of the given organization.",
+          "interface": "getTeamToken",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The team name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "Identifier of the token to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "token"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/organizations/:organization/teams/:team/tokens/:id",
+          "description": "Delete the token with the given ID from the given team of the given organization.",
+          "interface": "deleteTeamToken",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The team name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "Identifier of the token to delete."
+            }
+          ],
+          "responses": {
+            "204": {
+              "type": "unit",
+              "description": "Token successfully deleted."
+            }
+          }
+        }
+      ]
+    },
+
+    "metric": {
+      "path": "",
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/organizations/:organization/metrics",
+          "description": "Create organization metric data.",
+          "interface": "createOrganizationMetrics",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "Name of organization for which metrics are created."
+            },
+            {
+              "name": "metrics",
+              "type": "[metric]",
+              "description": "The metrics to create."
+            }
+          ],
+          "responses": {
+            "202": {
+              "type": "unit"
+            }
+          }
+        },
+
+        {
+          "method": "POST",
+          "path": "/organizations/:organization/teams/:team/metrics",
+          "description": "Create team metric data.",
+          "interface": "createTeamMetrics",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "Name of organization for which metrics are created."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "Name of team for which metrics are created."
+            },
+            {
+              "name": "metrics",
+              "type": "[metric]",
+              "description": "The metrics to create."
+            }
+          ],
+          "responses": {
+            "202": {
+              "type": "unit"
+            }
+          }
+        },
+
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/metric-names",
+          "description": "Retrieve information about available organization metrics.",
+          "interface": "listOrganizationMetrics",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "Name of organization for which metrics are retrieved."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[metric_info]"
+            }
+          }
+        },
+
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams/:team/metric-names",
+          "description": "Retrieve information about available team metrics.",
+          "interface": "listTeamMetrics",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "Name of organization for which metrics are retrieved."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "Name of team for which metrics are retrieved."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[metric_info]"
+            }
+          }
+        },
+
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/check-metrics",
+          "description": "Evaluate data for organization metrics.",
+          "interface": "getOrganizationMetricsCheck",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "Name of organization for which metric data is evaluated."
+            },
+            {
+              "name": "condition",
+              "type": "string",
+              "description": "The condition to be evaluated. Same format as an alert condition."
+            },
+            {
+              "name": "start",
+              "type": "date-time-iso8601",
+              "description": "The start of the time interval for which data is evaluated."
+            },
+            {
+              "name": "end",
+              "type": "date-time-iso8601",
+              "description": "The end of the time interval for which data is evaluated. Optional, defaults to current date/time.",
+              "required": false
+            },
+            {
+              "name": "interval",
+              "type": "integer",
+              "description": "The interval, as number of minutes, at which data is evaluated. Optional, defaults to 1 minute.",
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "metric_data_bulk"
+            }
+          }
+        },
+
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams/:team/check-metrics",
+          "description": "Evaluate data for team metrics.",
+          "interface": "getTeamMetricsCheck",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "Name of organization for which metric data is evaluated."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "Name of team for which metric data is evaluated."
+            },
+            {
+              "name": "condition",
+              "type": "string",
+              "description": "The condition to be evaluated. Same format as an alert condition."
+            },
+            {
+              "name": "start",
+              "type": "date-time-iso8601",
+              "description": "The start of the time interval for which data is evaluated."
+            },
+            {
+              "name": "end",
+              "type": "date-time-iso8601",
+              "description": "The end of the time interval for which data is evaluated. Optional, defaults to current date/time.",
+              "required": false
+            },
+            {
+              "name": "interval",
+              "type": "integer",
+              "description": "The interval, as number of minutes, at which data is evaluated. Optional, defaults to 1 minute.",
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "metric_data_bulk"
+            }
+          }
+        },
+
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/metrics",
+          "description": "Retrieve data for an organization metric.",
+          "interface": "getOrganizationMetrics",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "Name of organization for which metric data is retrieved."
+            },
+            {
+              "name": "metric",
+              "type": "string",
+              "description": "The name of the metric for which data is retrieved."
+            },
+            {
+              "name": "tags",
+              "type": "string",
+              "description": "The tags for the metric, as a comma-separated list of colon-separated key value pairs.",
+              "example": "environment:production,service:svc-seo",
+              "required": false
+            },
+            {
+              "name": "aggregator",
+              "type": "aggregator",
+              "description": "The aggregator to use when collecting data."
+            },
+            {
+              "name": "period",
+              "type": "integer",
+              "description": "The period to use for aggregation, as a number of minutes."
+            },
+            {
+              "name": "start",
+              "type": "date-time-iso8601",
+              "description": "Minimum date/time for the data to retrieve.",
+              "required": false
+            },
+            {
+              "name": "end",
+              "type": "date-time-iso8601",
+              "description": "Maximum date/time for the data to retrieve.",
+              "required": false
+            },
+            {
+              "name": "limit",
+              "type": "integer",
+              "description": "Maximum number of data points to retrieve.",
+              "required": false,
+              "default": 60
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "metric_data_bulk"
+            }
+          }
+        },
+
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams/:team/metrics",
+          "description": "Retrieve data for a team metric.",
+          "interface": "getTeamMetrics",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "Name of organization for which metric data is retrieved."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "Name of team for which metric data is retrieved."
+            },
+            {
+              "name": "metric",
+              "type": "string",
+              "description": "The name of the metric for which data is retrieved."
+            },
+            {
+              "name": "tags",
+              "type": "string",
+              "description": "The tags for the metric, as a comma-separated list of colon-separated key value pairs.",
+              "example": "environment:production,service:svc-seo",
+              "required": false
+            },
+            {
+              "name": "aggregator",
+              "type": "aggregator",
+              "description": "The aggregator to use when collecting data."
+            },
+            {
+              "name": "period",
+              "type": "integer",
+              "description": "The period to use for aggregation, as a number of minutes."
+            },
+            {
+              "name": "start",
+              "type": "date-time-iso8601",
+              "description": "Minimum date/time for the data to retrieve.",
+              "required": false
+            },
+            {
+              "name": "end",
+              "type": "date-time-iso8601",
+              "description": "Maximum date/time for the data to retrieve.",
+              "required": false
+            },
+            {
+              "name": "limit",
+              "type": "integer",
+              "description": "Maximum number of data points to retrieve.",
+              "required": false,
+              "default": 60
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "metric_data_bulk"
+            }
+          }
+        }
+      ]
+    },
+
+    "alert": {
+      "path": "",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/alerts",
+          "description": "Retrieve the list of alerts associated with the given organization.",
+          "interface": "getOrganizationAlerts",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "limit",
+              "type": "integer",
+              "default": 20,
+              "minimum": 0,
+              "maximum": 1000,
+              "description": "Number of alerts to return starting from offset parameter."
+            },
+            {
+              "name": "offset",
+              "type": "integer",
+              "default": 0,
+              "minimum": 0,
+              "description": "Offset for pagination, starting with 0."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[alert]"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/organizations/:organization/alerts",
+          "description": "Create a new alert for the given organization.",
+          "interface": "createOrganizationAlert",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "description": "A description for the alert. Should be descriptive of metric(s) and threshold(s) involved."
+            },
+            {
+              "name": "enabled",
+              "type": "boolean",
+              "description": "The state for the alert. A disabled alert is not checked."
+            },
+            {
+              "name": "period",
+              "type": "string",
+              "example": "15m",
+              "description": "How often should the condition be checked."
+            },
+            {
+              "name": "condition",
+              "type": "string",
+              "description": "The condition to be verified. See documentation for acceptable formats."
+            },
+            {
+              "name": "handbook_url",
+              "type": "string",
+              "description": "The URL of the alert handbook.",
+              "required": false
+            },
+            {
+              "name": "routing",
+              "type": "map",
+              "required": false,
+              "description": "Information for routing the alert to the appropriate notification service."
+            }
+          ],
+          "responses": {
+            "201": {
+              "type": "alert"
+            }
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/organizations/:organization/alerts/:id",
+          "description": "Update an alert for the given organization.",
+          "interface": "updateOrganizationAlert",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "The alert identifier."
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "required": false,
+              "description": "A description for the alert. Should be descriptive of metric(s) and threshold(s) involved."
+            },
+            {
+              "name": "enabled",
+              "type": "boolean",
+              "required": false,
+              "description": "The state for the alert. A disabled alert is not checked."
+            },
+            {
+              "name": "period",
+              "type": "string",
+              "example": "15m",
+              "required": false,
+              "description": "How often should the condition be checked."
+            },
+            {
+              "name": "handbook_url",
+              "type": "string",
+              "description": "The URL of the alert handbook.",
+              "required": false
+            },
+            {
+              "name": "routing",
+              "type": "map",
+              "required": false,
+              "description": "Information for routing the alert to the appropriate notification service."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "alert"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/alerts/:id",
+          "description": "Retrieve the alert with given alert ID for the given organization.",
+          "interface": "getOrganizationAlert",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "The alert identifier."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "alert"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/organizations/:organization/alerts/:id",
+          "description": "Delete the alert with the given ID from the given organization.",
+          "interface": "deleteOrganizationAlert",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "Identifier of the alert to delete."
+            }
+          ],
+          "responses": {
+            "204": {
+              "type": "unit",
+              "description": "Alert successfully deleted."
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams/:team/alerts",
+          "description": "Retrieve the list of alerts associated with the given team of the given organization.",
+          "interface": "getTeamAlerts",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "Name of the team whose alerts to retrieve."
+            },
+            {
+              "name": "limit",
+              "type": "integer",
+              "default": 20,
+              "minimum": 0,
+              "maximum": 1000,
+              "description": "Number of alerts to return starting from offset parameter."
+            },
+            {
+              "name": "offset",
+              "type": "integer",
+              "default": 0,
+              "minimum": 0,
+              "description": "Offset for pagination, starting with 0."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "[alert]"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/organizations/:organization/teams/:team/alerts",
+          "description": "Create a new alert for the given team of the given organization.",
+          "interface": "createTeamAlert",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The team name."
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "description": "A description for the alert. Should be descriptive of metric(s) and threshold(s) involved."
+            },
+            {
+              "name": "enabled",
+              "type": "boolean",
+              "description": "The state for the alert. A disabled alert is not checked."
+            },
+            {
+              "name": "period",
+              "type": "string",
+              "example": "15m",
+              "description": "How often should the condition be checked."
+            },
+            {
+              "name": "condition",
+              "type": "string",
+              "description": "The condition to be verified. See documentation for acceptable formats."
+            },
+            {
+              "name": "handbook_url",
+              "type": "string",
+              "description": "The URL of the alert handbook.",
+              "required": false
+            },
+            {
+              "name": "routing",
+              "type": "map",
+              "required": false,
+              "description": "Information for routing the alert to the appropriate notification service."
+            }
+          ],
+          "responses": {
+            "201": {
+              "type": "alert"
+            }
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/organizations/:organization/teams/:team/alerts/:id",
+          "description": "Update an alert for the given team of the given organization.",
+          "interface": "updateTeamAlert",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The team name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "The alert identifier."
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "required": false,
+              "description": "A description for the alert. Should be descriptive of metric(s) and threshold(s) involved."
+            },
+            {
+              "name": "enabled",
+              "type": "boolean",
+              "required": false,
+              "description": "The state for the alert. A disabled alert is not checked."
+            },
+            {
+              "name": "period",
+              "type": "string",
+              "example": "15m",
+              "required": false,
+              "description": "How often should the condition be checked."
+            },
+            {
+              "name": "handbook_url",
+              "type": "string",
+              "description": "The URL of the alert handbook.",
+              "required": false
+            },
+            {
+              "name": "routing",
+              "type": "map",
+              "required": false,
+              "description": "Information for routing the alert to the appropriate notification service."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "alert"
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/organizations/:organization/teams/:team/alerts/:id",
+          "description": "Retrieve the alert with given alert ID for the given team of the given organization.",
+          "interface": "getTeamAlert",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The team name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "Identifier of the alert to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "type": "alert"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/organizations/:organization/teams/:team/alerts/:id",
+          "description": "Delete the alert with the given ID from the given team of the given organization.",
+          "interface": "deleteTeamAlert",
+          "parameters": [
+            {
+              "name": "organization",
+              "type": "string",
+              "description": "The organization name."
+            },
+            {
+              "name": "team",
+              "type": "string",
+              "description": "The team name."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "description": "Identifier of the alert to delete."
+            }
+          ],
+          "responses": {
+            "204": {
+              "type": "unit",
+              "description": "Alert successfully deleted."
+            }
+          }
+        }
+      ]
+    }
+  }
+}

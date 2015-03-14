@@ -1,0 +1,43 @@
+@(menuData: SideMenuData, teamData: TeamData, addUserForm: Form[_], createTokenForm: Form[_])(implicit request: RequestHeader)
+
+@dashboard(menuData) {
+
+<div class="btn-group btn-group-justified btn-group-lg">
+    <div class="btn-group btn-group-lg">
+        <a type="button" class="btn btn-default" @if(teamData.role == Role.Viewer) { disabled}
+           href='@routes.Alerts.teamAlerts(addUserForm.data.get("organization").getOrElse(""), teamData.team.name)'>Alerts</a>
+    </div>
+    <div class="btn-group btn-group-lg">
+        <a href='@routes.Metrics.teamMetrics(addUserForm.data.get("organization").getOrElse(""), teamData.team.name)'
+           type="button" class="btn btn-default">Metrics</a>
+    </div>
+</div>
+<p></p>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">@Messages("cave.dashboard.teamDetails.heading", teamData.team.name)</h3>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Name</dt>
+            <dd>@teamData.team.name</dd>
+            <dt>Your role</dt>
+            <dd>@views.html.tags.roleBadge(teamData.role)</dd>
+            @if(teamData.role != Role.Viewer) {
+                <dt>Team Tokens</dt>
+                <dd>@views.html.tags.tokens(teamData.team.tokens, teamData.role, menuData.selectedOrganization.map(_.name).getOrElse(""), Some(teamData.team.name))</dd>
+            }
+        </dl>
+        @if(teamData.role == Role.Admin && teamData.team.tokens.size < 3) {
+            <p class="clearfix">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTokenModal">Create new token</button>
+                @modal.createTokenModal(createTokenForm)
+            </p>
+        }
+    </div>
+</div>
+    @if(teamData.role != Role.Viewer) {
+        @common.users(addUserForm, teamData.members, teamData.role, menuData.selectedOrganization.get, Some(teamData.team))
+    }
+}

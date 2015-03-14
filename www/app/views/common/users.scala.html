@@ -1,0 +1,62 @@
+@(addUserForm: Form[_], members: Seq[Member], role: Role, organization: Organization, team: Option[Team] = None)
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Users</h3>
+    </div>
+    <div class="panel-body container-fluid">
+        <ul class="list-group">
+            @members.map { m =>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-6">
+                        @m.user.firstName @m.user.lastName @m.user.email
+                    </div>
+                    <div class="btn-group col-xs-2">
+                        @if(role == Role.Admin) {
+                                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Change<span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" class="text-danger" data-email="@m.user.email" @{team.map(t=> s"data-team=${t.name}")}
+                                        data-organization="@organization.name"
+                                        data-message="@{
+                                          team match {
+                                            case Some(t) => {
+                                              Messages("cave.team.changeRole.modal.message", m.user.email, t.name, organization.name)
+                                            }
+                                            case None => {
+                                              Messages("cave.organizations.changeRole.modal.message", m.user.email, organization.name)
+                                            }
+                                          }
+                                        }"
+                                        data-title="@{
+                                          team match {
+                                            case Some(t) => { Messages("cave.team.changeRole.modal.title") }
+                                            case None    => { Messages("cave.organizations.changeRole.modal.title") }
+                                          }
+                                        }"
+                                        data-role="@m.role"
+                                        data-toggle="modal"
+                                        data-target="#change-role">Change role</a></li>
+                                    <li><a href="#" class="text-danger" data-email="@m.user.email" @{team.map(t=> s"data-team=${t.name}")} data-organization="@organization.name" data-toggle="modal" data-target="#confirm-delete">Remove</a></li>
+                                </ul>
+                        }
+                    </div>
+                    <div class="col-xs-2">
+                        @tags.roleBadge(m.role)
+                    </div>
+                </div>
+            </li>
+            }
+            @if(members.isEmpty) {
+                <p>No users</p>
+            }
+        </ul>
+        @if(role == Role.Admin) {
+                <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">Add user</a>
+                @modal.addUserModal(addUserForm, organization, team)
+            }
+    </div>
+    @views.html.modal.removeUserModal()
+    @views.html.modal.changeRoleModal()
+</div>

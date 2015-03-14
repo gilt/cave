@@ -1,0 +1,20 @@
+@(userTeam: Seq[UserTeam], orgRole: Role, createTeamForm: Form[_])
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Teams</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            @userTeam.map { t =>
+                <a href='@routes.Teams.team(createTeamForm.data.get("organization").getOrElse(""), t.name)' class="list-group-item">@t.name @tags.roleBadge(t.role)</a>
+            }
+            @if(userTeam.isEmpty) {
+                <p>There is not teams in this organization</p>
+            }
+        </ul>
+        @if(orgRole == Role.Admin) {
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewTeam">Create new Team</button>
+                @modal.createTeamModal(createTeamForm)
+        }
+    </div>
+</div>

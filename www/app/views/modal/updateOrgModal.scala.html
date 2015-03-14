@@ -1,0 +1,51 @@
+@(updateOrgForm:Form[_])
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(views.html.forms.inputFieldConstructorWithLabels.f) }
+
+<!-- Modal -->
+<div class="modal fade" id="editOrgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">@Messages("cave.dashboard.updateOrganization.modal.title", updateOrgForm("name").value.get)</h4>
+            </div>
+
+            @helper.form(action = routes.Organizations.updateOrganization()) {
+            <div class="modal-body">
+
+                <fieldset>
+                    @helper.inputText(
+                    updateOrgForm("name"),
+                        '_label -> "",
+                        '_showConstraints -> false,
+                        'placeholder -> "Name",
+                        '_class -> "form-control hidden",
+                        'type -> "hidden"
+                    )
+                    @helper.inputText(
+                    updateOrgForm("email"),
+                        '_label -> "Email",
+                        'placeholder -> "Email",
+                        'class -> "form-control",
+                        'type -> "text"
+                    )
+                    @helper.inputText(
+                    updateOrgForm("notificationUrl"),
+                        '_label -> "Notification URL",
+                        'placeholder -> "http://example.com/notifyme",
+                        'class -> "form-control",
+                        'type -> "text"
+                    )
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>

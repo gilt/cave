@@ -1,0 +1,34 @@
+[
+  {
+    "service": "api",
+    "s3": "s3://cavellc-metadata/ionblaster/cavellc/.ionblaster.json"
+  },
+  {
+    "service": "dbwriter",
+    "s3": "s3://cavellc-metadata/ionblaster/cavellc/.ionblaster.json"
+  },
+  {
+    "service": "worker",
+    "s3": "s3://cavellc-metadata/ionblaster/cavellc/.ionblaster.json"
+  },
+  {
+    "service": "scheduler",
+    "s3": "s3://cavellc-metadata/ionblaster/cavellc/.ionblaster.json"
+  },
+  {
+    "service": "www",
+    "s3": "s3://cavellc-metadata/ionblaster/cavellc/.ionblaster.json"
+  },
+  {
+    "service": "api-test",
+    "s3": "s3://cavellc-metadata/ionblaster/cavellc/.ionblaster-test.json"
+  },
+  {
+    "service": "dbwriter-test",
+    "s3": "s3://cavellc-metadata/ionblaster/cavellc/.ionblaster-test.json"
+  },
+  {
+    "service": "www-test",
+    "s3": "s3://cavellc-metadata/ionblaster/cavellc/.ionblaster-test.json"
+  }
+]

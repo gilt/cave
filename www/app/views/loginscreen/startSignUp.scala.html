@@ -1,0 +1,39 @@
+@(startForm:Form[String])(implicit request: RequestHeader)
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(views.html.forms.inputFieldConstructor.f) }
+
+@views.html.loginscreen.login{
+<div class="panel panel-default signup-panel">
+    <div class="panel-heading">
+        <h3 class="panel-title">@Messages("cave.login.signup.title")</h3>
+    </div>
+    <div class="panel-body">
+    <form action=""
+          autocomplete="off" method="post"
+            >
+        <fieldset>
+            @helper.inputText(
+                startForm("email"),
+                '_label -> Messages("cave.login.signup.email1"),
+                'class -> "form-control",
+                'placeholder -> "Email",
+                'required -> "",
+                'type -> "email"
+            )
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">@Messages("cave.login.signup.createAccount")</button>
+                <a class="btn" href="@routes.Authentication.login">@Messages("cave.login.signup.cancel")</a>
+            </div>
+
+        </fieldset>
+    </form>
+        @request.flash.get("error").map { msg =>
+        <div class="alert alert-danger">
+            @Messages(msg)
+        </div>
+        }
+    </div>
+</div>
+
+}

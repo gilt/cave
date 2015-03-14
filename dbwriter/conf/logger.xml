@@ -1,0 +1,41 @@
+<configuration>
+
+    <conversionRule conversionWord="coloredLevel" converterClass="play.api.Logger$ColoredLevel" />
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${application.home}/logs/application.log</file>
+        <encoder>
+            <pattern>%date [%level] %logger - %thread - %message%n</pattern>
+        </encoder>
+
+        <!-- daily rollover, with 7 days history -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${application.home}/logs/application.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="CloudWatch" class="com.cave.logs.CloudWatchAppender">
+        <awsAccessKey>${db-writer.aws.credentials.access-key}</awsAccessKey>
+        <awsSecretKey>${db-writer.aws.credentials.secret-key}</awsSecretKey>
+        <logGroupName>cavellc-dbwriter</logGroupName>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date [%level] %logger - %thread - %message%n</pattern>
+        </layout>
+    </appender>
+
+    <logger name="application" level="INFO" />
+    <logger name="com.cave" level="INFO" />
+
+    <!-- Off these ones as they are annoying, and anyway we manage configuration ourself -->
+    <logger name="com.avaje.ebean.config.PropertyMapLoader" level="OFF" />
+    <logger name="com.avaje.ebeaninternal.server.core.XmlConfigLoader" level="OFF" />
+    <logger name="com.avaje.ebeaninternal.server.lib.BackgroundThread" level="OFF" />
+    <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF" />
+
+    <root level="WARN">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="CloudWatch"/>
+    </root>
+
+</configuration>

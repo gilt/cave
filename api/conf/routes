@@ -1,0 +1,77 @@
+POST    /users/register                                    controllers.Users.registerUser()
+POST    /users/confirm                                     controllers.Users.confirmUser()
+POST    /users/login                                       controllers.Users.loginUser()
+POST    /users/forgot-password                             controllers.Users.forgotPassword()
+POST    /users/reset-password                              controllers.Users.resetPassword()
+GET     /users/info                                        controllers.Users.getUser()
+PATCH   /users/info                                        controllers.Users.updateUser()
+GET     /users/organizations                               controllers.Users.getUserOrganizations()
+GET     /users/organizations/:org/teams                    controllers.Users.getUserTeams(org: String)
+GET     /users/search                                      controllers.Users.searchUsers(q: String)
+
+POST    /organizations                                     controllers.Organizations.createOrganization()
+GET     /organizations/:org                                controllers.Organizations.getOrganization(org: String)
+GET     /organizations/:org/users                          controllers.Organizations.getUsers(org: String)
+POST    /organizations/:org/users                          controllers.Organizations.addUser(org: String)
+PATCH   /organizations/:org/users/:email                   controllers.Organizations.modifyUser(org: String, email: String)
+DELETE  /organizations/:org/users/:email                   controllers.Organizations.removeUser(org: String, email: String)
+PATCH   /organizations/:org                                controllers.Organizations.updateOrganization(org: String)
+DELETE  /organizations/:org                                controllers.Organizations.deleteOrganization(org: String)
+
+GET     /organizations/:org/teams                          controllers.Teams.getTeams(org: String)
+POST    /organizations/:org/teams                          controllers.Teams.createTeam(org: String)
+GET     /organizations/:org/teams/:team                    controllers.Teams.getTeam(org: String, team: String)
+GET     /organizations/:org/teams/:team/users              controllers.Teams.getUsers(org: String, team: String)
+POST    /organizations/:org/teams/:team/users              controllers.Teams.addUser(org: String, team: String)
+PATCH   /organizations/:org/teams/:team/users/:email       controllers.Teams.modifyUser(org: String, team: String, email: String)
+DELETE  /organizations/:org/teams/:team/users/:email       controllers.Teams.removeUser(org: String, team: String, email: String)
+DELETE  /organizations/:org/teams/:team                    controllers.Teams.deleteTeam(org: String, team: String)
+
+POST    /organizations/:org/tokens                         controllers.Tokens.createOrganizationToken(org: String)
+GET     /organizations/:org/tokens                         controllers.Tokens.getOrganizationTokens(org: String)
+DELETE  /organizations/:org/tokens/:id                     controllers.Tokens.deleteOrganizationToken(org: String, id: String)
+POST    /organizations/:org/teams/:team/tokens             controllers.Tokens.createTeamToken(org: String, team: String)
+GET     /organizations/:org/teams/:team/tokens             controllers.Tokens.getTeamTokens(org: String, team: String)
+DELETE  /organizations/:org/teams/:team/tokens/:id         controllers.Tokens.deleteTeamToken(org: String, team: String, id: String)
+
+POST    /organizations/:org/metrics                        controllers.Metrics.createOrganizationMetrics(org: String)
+POST    /organizations/:org/teams/:team/metrics            controllers.Metrics.createTeamMetrics(org: String, team: String)
+POST    /metrics                                           controllers.Metrics.createMetrics()
+
+GET     /organizations/:org/metrics                        controllers.Metrics.getOrganizationMetrics(org: String)
+GET     /organizations/:org/teams/:team/metrics            controllers.Metrics.getTeamMetrics(org: String, team: String)
+GET     /metrics                                           controllers.Metrics.getMetrics()
+
+GET     /organizations/:org/metric-names                   controllers.Metrics.listOrganizationMetrics(org: String)
+GET     /organizations/:org/teams/:team/metric-names       controllers.Metrics.listTeamMetrics(org: String, team: String)
+GET     /metric-names                                      controllers.Metrics.listMetrics()
+DELETE  /organizations/:org/metric-names/:metric                controllers.Metrics.deleteOrganizationMetric(org: String, metric: String)
+DELETE  /organizations/:org/teams/:team/metric-names/:metric    controllers.Metrics.deleteTeamMetric(org: String, team: String, metric: String)
+DELETE  /metric-names/:metric                                   controllers.Metrics.deleteMetric(metric: String)
+
+GET     /organizations/:org/check-metrics                  controllers.Metrics.checkOrganizationMetrics(org: String)
+GET     /organizations/:org/teams/:team/check-metrics      controllers.Metrics.checkTeamMetrics(org: String, team: String)
+GET     /check-metrics                                     controllers.Metrics.checkMetrics()
+
+POST    /organizations/:org/alerts                         controllers.Alerts.createOrganizationAlert(org: String)
+GET     /organizations/:org/alerts                         controllers.Alerts.getOrganizationAlerts(org: String, limit: Int ?= 20, offset: Int ?= 0)
+GET     /organizations/:org/alerts/:id                     controllers.Alerts.getOrganizationAlert(org: String, id: String)
+PATCH   /organizations/:org/alerts/:id                     controllers.Alerts.updateOrganizationAlert(org: String, id: String)
+DELETE  /organizations/:org/alerts/:id                     controllers.Alerts.deleteOrganizationAlert(org: String, id: String)
+POST    /organizations/:org/teams/:team/alerts             controllers.Alerts.createTeamAlert(org: String, team: String)
+GET     /organizations/:org/teams/:team/alerts             controllers.Alerts.getTeamAlerts(org: String, team: String, limit: Int ?= 20, offset: Int ?= 0)
+GET     /organizations/:org/teams/:team/alerts/:id         controllers.Alerts.getTeamAlert(org: String, team: String, id: String)
+PATCH   /organizations/:org/teams/:team/alerts/:id         controllers.Alerts.updateTeamAlert(org: String, team: String, id: String)
+DELETE  /organizations/:org/teams/:team/alerts/:id         controllers.Alerts.deleteTeamAlert(org: String, team: String, id: String)
+
+GET     /_internal_/healthcheck                            controllers.Internal.healthCheck
+GET     /_internal_/version                                controllers.Internal.version
+GET     /_internal_/reset                                  controllers.Internal.reset
+
+GET     /status                                            controllers.Internal.status
+
+GET     /_internal_/organizations/:org/cluster             controllers.Internal.getOrganizationCluster(org: String)
+GET     /_internal_/organizations/:org/teams/:team/cluster controllers.Internal.getTeamCluster(org: String, team: String)
+POST    /_internal_/organizations/:org/cluster             controllers.Internal.updateOrganizationCluster(org: String)
+POST    /_internal_/organizations/:org/teams/:team/cluster controllers.Internal.updateTeamCluster(org: String, team: String)
+

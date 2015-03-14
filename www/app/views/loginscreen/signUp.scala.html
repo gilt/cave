@@ -1,0 +1,66 @@
+@(signUpForm:Form[_], mailToken: String)(implicit request: RequestHeader)
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(views.html.forms.inputFieldConstructor.f) }
+
+@views.html.loginscreen.login{
+<div class="panel panel-default signup-panel">
+    <div class="panel-heading">
+        <h3 class="panel-title">@Messages("cave.login.signup.title")</h3>
+    </div>
+    <div class="panel-body">
+        @helper.form(action = routes.Registration.handleSignUp(mailToken)) {
+            <fieldset>
+                @helper.inputText(
+                    signUpForm("firstName"),
+                    'class -> "form-control",
+                    'placeholder -> Messages("cave.login.signup.firstName"),
+                    'required -> ""
+                )
+                @helper.inputText(
+                    signUpForm("lastName"),
+                    'class -> "form-control",
+                    'placeholder -> Messages("cave.login.signup.lastName"),
+                    'required -> ""
+                )
+                @helper.inputText(
+                    signUpForm("password1"),
+                    'class -> "form-control",
+                    'placeholder -> Messages("cave.login.signup.password1"),
+                    'type -> "password",
+                    'required -> ""
+                )
+                @helper.inputText(
+                    signUpForm("password2"),
+                    'class -> "form-control",
+                    '_error -> signUpForm.error("password"),
+                    'placeholder -> Messages("cave.login.signup.password2"),
+                    'type -> "password",
+                    'required -> ""
+                )
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">@Messages("cave.login.signup.createAccount")</button>
+                    <a class="btn" href="@routes.Authentication.login">@Messages("cave.login.signup.cancel")</a>
+                </div>
+            </fieldset>
+        }
+        @request.flash.get("error").map { msg =>
+        <div class="alert alert-danger">
+            @Messages(msg)
+        </div>
+        }
+
+        @signUpForm.globalError.map { error =>
+        <div class="alert alert-danger">
+            @error.message
+        </div>
+        }
+
+        @request.flash.get("success").map { message =>
+        <div class="alert alert-info">
+            @message
+        </div>
+        }
+    </div>
+</div>
+
+}

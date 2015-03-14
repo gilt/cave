@@ -1,0 +1,18 @@
+@(tokens: Seq[com.gilt.cavellc.models.Token], role: Role,  organizationName: String, teamName: Option[String])
+
+@tokens.map { t =>
+<div>
+    <strong class="control-label">@t.description</strong>
+    @if(role == Role.Admin && tokens.size > 1) {
+        <button type="button" class="pull-right btn btn-xs btn-danger text-danger" data-target="#deleteTokenModal" data-toggle="modal"
+                data-description="@t.description" data-token-id="@t.id" data-organization="@organizationName" data-team="@teamName.getOrElse("")">
+        <span class="glyphicon glyphicon-remove-sign"></span> Remove
+        </button>
+    }
+    <div>
+        <a class="showToken text-primary">Show</a>
+        <span class="word-wrap tokenValue">@t.value</span>
+    </div>
+</div>
+}
+@modal.deleteTokenModal()

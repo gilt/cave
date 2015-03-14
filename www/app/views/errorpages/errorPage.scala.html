@@ -1,0 +1,15 @@
+@(error: String)
+@views.html.loginscreen.main{
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="alert alert-warning">
+                <h1>@Messages("cave.errors.5xx.message")</h1>
+                <h4>@Messages("cave.errors.5xx.description")</h4>
+                <pre>@error</pre>
+            </div>
+        </div>
+    </div>
+</div>
+}
+

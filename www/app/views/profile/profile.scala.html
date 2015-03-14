@@ -1,0 +1,44 @@
+@(user: User, sessionToken: String, changeDetails:Form[controllers.UserProfileChange])(implicit request: RequestHeader)
+@import play.api.{Logger, Play}
+@import helper._
+@import play.api.Play
+@import collection.immutable.ListMap
+
+@mainTemplate("CAVE") {
+
+@common.breadcrumb(ListMap("Home" -> routes.Application.index, "Your Profile" -> routes.UserProfile.profile))
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Messages("cave.profile.userDetails")</h3>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>Fist name</dt>
+                    <dd>@user.firstName</dd>
+                    <dt>Last name</dt>
+                    <dd>@user.lastName</dd>
+                    <dt>Email</dt>
+                    <dd>@user.email</dd>
+                    <dt>Session token</dt>
+                    <dd>
+                        <a class="showToken text-primary">Show</a>
+                        <span class="word-wrap tokenValue">@sessionToken</span>
+                    </dd>
+                </dl>
+                <div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#changeUserDetailsModal">
+                        @Messages("cave.profile.changeDetails")
+                    </button>
+
+                    <a class="pull-right text-danger" href="@routes.PasswordChange.page">@Messages("cave.profile.changePassword") </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @modal.changeUserDetailsModal(changeDetails)
+}

@@ -1,0 +1,2 @@
+GET /_internal_/healthcheck   controllers.Internal.healthCheck
+GET /_internal_/status        controllers.Internal.status

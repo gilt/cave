@@ -1,0 +1,20 @@
+@(content: Html)
+
+@views.html.loginscreen.main{
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h1>Welcome to CAVE</h1>
+                <p class="lead">CAVE is an open-source, managed service for monitoring infrastructure, platform, and application metrics that provide visibility into your system's performance and operational levels</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            @content
+        </div>
+    </div>
+</div>
+
+
+
+}

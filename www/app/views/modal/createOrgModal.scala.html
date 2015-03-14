@@ -1,0 +1,49 @@
+@()
+@import helper._
+@import controllers.helpers.CaveForms.organizationForm
+@implicitFieldConstructor = @{ FieldConstructor(views.html.forms.inputFieldConstructorWithLabels.f) }
+<div class="modal fade" id="createOrgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Content-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">@Messages("cave.dashboard.createNewOrganization.modal.title")</h4>
+            </div>
+            @helper.form(action = routes.Organizations.createOrganization()) {
+            <div class="modal-body">
+
+                <fieldset>
+                    @helper.inputText(
+                        organizationForm("name"),
+                        '_label -> "Name",
+                        'placeholder -> "Name",
+                        'class -> "form-control",
+                        'type -> "text"
+                    )
+                    @helper.inputText(
+                        organizationForm("email"),
+                        '_label -> "Email",
+                        'placeholder -> "Email",
+                        'class -> "form-control",
+                        'type -> "text"
+                    )
+                    @helper.inputText(
+                        organizationForm("notificationUrl"),
+                        '_label -> "Notification URL",
+                        'placeholder -> "http://example.com/notifyme",
+                        'class -> "form-control",
+                        'type -> "text"
+                    )
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>

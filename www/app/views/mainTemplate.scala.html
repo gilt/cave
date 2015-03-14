@@ -1,0 +1,51 @@
+@(title: String)(content: Html)(implicit request: RequestHeader)
+
+<!DOCTYPE html>
+<html>
+    @common.head(title)
+    <body>
+        @common.topNavigation()
+        <div class="container">
+            @request.flash.get("success").map { msg =>
+            <div class="alert alert-info">
+                @Html(msg)
+            </div>
+            }
+
+            @request.flash.get("error").map { msg =>
+            <div class="alert alert-danger">
+                @Html(msg)
+            </div>
+            }
+
+            <div id="issues">
+            </div>
+
+            @content
+        </div>
+        @modal.pleaseWaitModal()
+        @modal.errorModal()
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src='@routes.Assets.at("jquery/jquery-2.1.1.min.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("bootstrap/js/bootstrap.min.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("bootstrap-select/js/bootstrap-select.min.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("moments/moment.min.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")' type="text/javascript"></script>
+        <!-- Load c3.css -->
+        <link href='@routes.Assets.at("components/c3/c3.min.css")' rel="stylesheet">
+
+        <link href='@routes.Assets.at("bootstrap-typeahead/typeaheadjs.css")' rel="stylesheet">
+
+        <!-- Load d3.js and c3.js -->
+        <script src='@routes.Assets.at("components/d3/d3.js")' type="text/javascript" charset="utf-8"></script>
+        <script src='@routes.Assets.at("components/c3/c3.js")' type="text/javascript"></script>
+
+        <script src='@routes.Assets.at("bootstrap-typeahead/typeahead.bundle.min.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("javascripts/cave.js")' type="text/javascript"></script>
+    </body>
+</html>
+
+
+
+
+

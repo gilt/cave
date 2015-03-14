@@ -1,0 +1,23 @@
+@(currentIssues: Seq[IssueData], recentIssues: Seq[IssueData])(implicit lang: play.api.i18n.Lang)
+
+@if(currentIssues.size > 0) {
+    <div class="alert alert-danger">
+        <h4>Currently open issues: </h4>
+        <ul>
+        @for(issues <- currentIssues) {
+            <li>@issues.description since @issues.since.toString("k:mm:ssa z d MMMM YYYY", lang.toLocale)</li>
+        }
+        </ul>
+    </div>
+}
+
+@if(recentIssues.size > 0) {
+    <div class="alert alert-warning">
+        <h4>Recently closed issues:</h4>
+        <ul>
+        @for(issues <- recentIssues) {
+            <li>@issues.description from @issues.since.toString("k:mm:ssa z d MMMM YYYY", lang.toLocale) until @issues.until.map(_.toString("k:mm:ssa z d MMMM YYYY", lang.toLocale)).getOrElse("Unknown time")</li>
+        }
+        </ul>
+    </div>
+}

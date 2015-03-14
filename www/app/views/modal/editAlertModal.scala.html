@@ -1,0 +1,100 @@
+@(alertForm: Form[_])
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(views.html.forms.inputFieldConstructorWithLabels.f) }
+<!-- Modal -->
+<div class="modal fade" id="editAlertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">@Messages("cave.alerts.editAlert.modal.title")</h4>
+            </div>
+            @helper.form(action = routes.Alerts.updateAlert()) {
+            <div class="modal-body">
+                <fieldset>
+                    @helper.inputText(
+                    alertForm("description"),
+                    '_label -> "Description",
+                    'placeholder -> "Description",
+                    'class -> "form-control",
+                    'type -> "text",
+                    'required -> ""
+                    )
+
+                    @helper.inputText(
+                    alertForm("period"),
+                    '_label -> "Period",
+                    'placeholder -> "A string to describe how often to evaluate the condition",
+                    'class -> "form-control",
+                    'type -> "text",
+                    'required -> ""
+                    )
+
+                    @helper.inputText(
+                    alertForm("condition"),
+                    '_label -> "Condition",
+                    'placeholder -> "A condition to be evaluated",
+                    'class -> "form-control",
+                    'type -> "text",
+                    'required -> "",
+                    'disabled -> "disabled"
+                    )
+
+                    @helper.inputText(
+                    alertForm("handbookUrl"),
+                    '_label -> "Handbook",
+                    'placeholder -> "The URL of the handbook for this alert",
+                    'class -> "form-control",
+                    'type -> "text"
+                    )
+
+                    @helper.inputText(
+                    alertForm("routing"),
+                    '_label -> "PagerDuty Service API key",
+                    'placeholder -> "API key",
+                    'class -> "form-control",
+                    'type -> "text"
+                    )
+
+                    @helper.checkbox(
+                    alertForm("status"),
+                    '_label -> "Enable alert? ",
+                    'type -> "checkbox"
+                    )
+
+
+                    @helper.inputText(
+                    alertForm("organization"),
+                    'type -> "hidden",
+                    '_label -> "",
+                    '_class -> "hidden",
+                    'required -> ""
+                    )
+                    @helper.inputText(
+                    alertForm("team"),
+                    'type -> "hidden",
+                    '_label -> "",
+                    '_class -> "hidden",
+                    'required -> ""
+                    )
+                    @helper.inputText(
+                    alertForm("id"),
+                    'type -> "hidden",
+                    '_label -> "",
+                    '_class -> "hidden",
+                    'required -> ""
+                    )
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <a type="button" href="http://cavellc.github.io/alerts/alerts.html" target="_blank" class="btn btn-info">Help</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+@(organizationName: String, teamName: Option[String], metricName: String,
+breadcrumb: collection.immutable.ListMap[String, _], tags: Seq[String],
+role: com.gilt.cavellc.models.Role,
+createAlertForm: Form[_],
+selections: GraphViewData)(implicit request: RequestHeader)
+
+@import views.alerts.GraphHelper
+
+@mainTemplate("CAVE") {
+@common.breadcrumb(breadcrumb)
+<div class="row graph">
+    <div class="col-md-12">
+        <script>
+            var organization = "@organizationName";
+            var team = "@teamName.getOrElse("")";
+            var metric = "@metricName";
+        </script>
+        <div id="chart"></div>
+        <div class="col-md-12">
+            <fieldset>
+                <legend>Aggregation</legend>
+                <div class="col-md-6" data-toggle="buttons">
+                    <select class="selectpicker show-tick user-default" data-width="auto" id="interval">
+                        @GraphHelper.ValidPeriods.map { v =>
+                            <option value='@{v._1}' @if(v._1.toString == selections.period || v._2.toString == selections.period) { selected } name='@{v._2}'>@{v._2}</option>
+                        }
+                    </select>
+                    <select class="selectpicker show-tick user-default" data-width="auto" id="aggregator">
+                        @Aggregator.all.map { a =>
+                        <option value="@a" @if(a==selections.aggregator){selected}>@a</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-offset-3 col-md-3">
+                    <button type="button" id="getUrl" data-toggle="modal" data-target="#getGraphUrlModal" class="btn btn-info"> Get URL</button>
+                    <button type="button" id="plot" class="btn btn-success pull-right"> Plot</button>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-12">
+            <fieldset enabled>
+                <legend>Time range</legend>
+                <div class="col-md-5 form-group btn-group user-default" data-toggle="buttons" id="timeRange">
+                    <label class="btn btn-default">
+                        <input type="radio" name="options" value="@(14 * 24 * 60 * 60)" autocomplete="off"> 2w
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="options" value="@(7 * 24 * 60 * 60)" autocomplete="off"> 1w
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="options" value="@(48 * 60 * 60)" autocomplete="off"> 48h
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="options" value="@(24 * 60 * 60)" autocomplete="off"> 24h
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="options" value="@(12 * 60 * 60)" autocomplete="off"> 12h
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="options" value="@(6 * 60 * 60)" autocomplete="off"> 6h
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="options" value="@(3 * 60 * 60)" autocomplete="off"> 3h
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="options" value="@(1 * 60 * 60)" autocomplete="off"> 1h
+                    </label>
+                    <label class="btn btn-default active">
+                        <input type="radio" name="options" value="custom" id="optionCustom" autocomplete="off" checked> Custom
+                    </label>
+                </div>
+                <div class="col-md-7" data-toggle="buttons" id="customDateRangePanel">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="startDate">Start</label>
+                            <div class='input-group date' id='startDate'>
+                                <input type='text' class="form-control" data-date-defaultDate="@selections.startDate" data-date-format="YYYY/MM/DD hh:mm"/>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="endDate">End</label>
+                            <div class='input-group date' id='endDate'>
+                                <input type='text' class="form-control" data-date-defaultDate="@selections.endDate" data-date-format="YYYY/MM/DD hh:mm"/>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-12 tagsSection">
+            <fieldset>
+                <legend>Tags</legend>
+                @if(tags.isEmpty) {
+                    <div class="alert alert-info">No tags</div>
+                }
+                @tags.map { t =>
+                    <div class="form-group col-md-3 @selections.tags.get(t).map(x =>"has-success")">
+                        <input type="text" name="@t" class="form-control autocomplete" id="input-tag-@t"
+                               placeholder="@t" @selections.tags.get(t).map( t=> s"value=$t" )>
+                    </div>
+                }
+            </fieldset>
+        </div>
+        <div class="col-md-12 testAlertPanel">
+            <fieldset>
+                <legend>Evaluate alert condition</legend>
+                    <div class="col-md-3">
+                        <label for="intervalForTest">Period</label>
+                        <select class="selectpicker show-tick" data-width="auto" id="intervalForTest">
+                            @GraphHelper.ValidPeriods.map { v =>
+                                <option value='@{v._1}' @if(v._1.toString == selections.intervalForTest || v._2.toString == selections.intervalForTest) { selected } name='@{v._2}'>@{v._2}</option>
+                            }
+                        </select>
+                    </div>
+                <div class="col-md-6">
+                    <input type="text" name="condition" value="@selections.condition"
+                           class="form-control autocomplete" id="alertCondition" placeholder="Alert condition" autocomplete="off">
+                </div>
+                <div class="col-md-3">
+                    <a type="button" href="http://cavellc.github.io/alerts/alerts.html" target="_blank" class="btn btn-info">Help</a>
+                    @if(role != Role.Viewer) {
+                        <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAlertModal" id="createAlertButton">Create Alert</a>
+                    }
+                    <button type="button" id="evaluateCondition" class="btn btn-warning pull-right"> Evaluate</button>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+@modal.createAlertModal(createAlertForm)
+@modal.getGraphUrlModal()
+}

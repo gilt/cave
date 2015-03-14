@@ -1,0 +1,9 @@
+@(errors: Map[String, Seq[String]])
+
+<h4>Form Validation Error</h4>
+<dl class='dl-horizontal'>
+    @for(e <- errors) {
+        <dt>@e._1</dt>
+        <dd>@e._2</dd>
+    }
+</dl>

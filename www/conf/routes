@@ -1,0 +1,77 @@
+GET     /                                                   @controllers.Application.index
+GET     /profile                                            @controllers.UserProfile.profile
+POST    /profile                                            @controllers.UserProfile.update
+
+GET     /organizations/:orgName                             @controllers.Organizations.organization(orgName)
+
+GET     /organizations/:orgName/teams/:teamName             @controllers.Teams.team(orgName, teamName)
+
+GET     /organizations/:orgName/metrics                     @controllers.Metrics.organizationMetrics(orgName)
+GET     /organizations/:orgName/teams/:teamName/metrics     @controllers.Metrics.teamMetrics(orgName, teamName)
+GET     /organizations/:orgName/metrics/:metricName/delete                      @controllers.Metrics.deleteOrganizationMetric(orgName, metricName)
+GET     /organizations/:orgName/teams/:teamName/metrics/:metricName/delete      @controllers.Metrics.deleteTeamMetric(orgName, teamName, metricName)
+
+GET     /organizations/:orgName/metrics/data                     @controllers.Graphs.dataForOrganization(orgName: String, period: Int, aggregator: com.gilt.cavellc.models.Aggregator, metric: String, tags: Option[String], start: _root_.org.joda.time.DateTime, end: _root_.org.joda.time.DateTime)
+GET     /organizations/:orgName/teams/:teamName/metrics/data     @controllers.Graphs.dataForTeam(orgName: String, teamName: String, period: Int, aggregator: com.gilt.cavellc.models.Aggregator, metric: String, tags: Option[String], start: _root_.org.joda.time.DateTime, end: _root_.org.joda.time.DateTime)
+
+GET     /organizations/:orgName/metrics/graph/:metric                     @controllers.Graphs.graphForOrganization(orgName: String, metric: String, aggregator: Option[com.gilt.cavellc.models.Aggregator] ?= None, period: Option[String] ?= None, start: Option[_root_.org.joda.time.DateTime] ?= None, end: Option[_root_.org.joda.time.DateTime] ?= None, intervalForTest: Option[String] ?= None, condition: Option[String] ?= None, tags: Option[String] ?= None)
+GET     /organizations/:orgName/teams/:teamName/metrics/graph/:metric     @controllers.Graphs.graphForTeam(orgName: String, teamName: String, metric: String, aggregator: Option[com.gilt.cavellc.models.Aggregator] ?= None, period: Option[String] ?= Some("666m"), start: Option[_root_.org.joda.time.DateTime] ?= None, end: Option[_root_.org.joda.time.DateTime] ?= None, intervalForTest: Option[String] ?= None, condition: Option[String] ?= None, tags: Option[String] ?= None)
+
+GET     /organizations/:orgName/metrics/check                     @controllers.Graphs.checkAlertConditionForOrganization(orgName: String, period: Int, condition: String, metric: String, start: _root_.org.joda.time.DateTime, end: Option[_root_.org.joda.time.DateTime])
+GET     /organizations/:orgName/teams/:teamName/metrics/check     @controllers.Graphs.checkAlertConditionForTeam(orgName: String, teamName: String, period: Int, condition: String, metric: String, start: _root_.org.joda.time.DateTime, end: Option[_root_.org.joda.time.DateTime])
+
+GET     /organizations/:orgName/alerts                      @controllers.Alerts.organizationAlerts(orgName, limit: Int ?= 20, offset: Int ?= 0)
+GET     /organizations/:orgName/alerts/:alertId             @controllers.Alerts.organizationAlert(orgName, alertId)
+GET     /organizations/:orgName/alerts/:alertId/disable             @controllers.Alerts.disableOrganizationAlert(orgName, alertId)
+GET     /organizations/:orgName/alerts/:alertId/enable             @controllers.Alerts.enableOrganizationAlert(orgName, alertId)
+GET     /organizations/:orgName/teams/:teamName/alerts      @controllers.Alerts.teamAlerts(orgName, teamName, limit: Int ?= 20, offset: Int ?= 0)
+GET     /organizations/:orgName/teams/:teamName/alerts/:alertId      @controllers.Alerts.teamAlert(orgName, teamName, alertId)
+
+GET     /organizations/:orgName/teams/:teamName/alerts/:alertId/disable      @controllers.Alerts.disableTeamAlert(orgName, teamName, alertId)
+GET     /organizations/:orgName/teams/:teamName/alerts/:alertId/enable      @controllers.Alerts.enableTeamAlert(orgName, teamName, alertId)
+
+POST    /organization/create                                @controllers.Organizations.createOrganization
+POST    /organization/update                                @controllers.Organizations.updateOrganization
+
+POST    /alerts/create                                      @controllers.Alerts.create
+POST    /alerts/delete                                      @controllers.Alerts.removeAlert
+POST    /alerts/update                                      @controllers.Alerts.updateAlert
+
+POST    /tokens/create                                      @controllers.Tokens.create
+POST    /tokens/delete                                      @controllers.Tokens.delete
+
+POST    /users/add                                          @controllers.Application.addUser
+POST    /users/remove                                       @controllers.Application.removeUser
+POST    /users/change-role                                  @controllers.Application.changeRole
+
+POST    /teams/create                                       @controllers.Organizations.handleCreateTeam
+
+# Login Page
+GET     /login                                              controllers.Authentication.login
+POST    /login                                              controllers.Authentication.authenticate
+GET     /logout                                             controllers.Authentication.logout
+
+# Registration routes
+GET         /signup                                         @controllers.Registration.startSignUp
+POST        /signup                                         @controllers.Registration.handleStartSignUp
+GET         /signup/:mailToken                              @controllers.Registration.signUp(mailToken)
+POST        /signup/:mailToken                              @controllers.Registration.handleSignUp(mailToken)
+
+# Reset password
+GET         /reset                                          @controllers.PasswordReset.startResetPassword
+POST        /reset                                          @controllers.PasswordReset.handleStartResetPassword
+GET         /reset/:mailToken                               @controllers.PasswordReset.resetPassword(mailToken)
+POST        /reset/:mailToken                               @controllers.PasswordReset.handleResetPassword(mailToken)
+
+# Change Password
+GET         /password                                       @controllers.PasswordChange.page
+POST        /password                                       @controllers.PasswordChange.handlePasswordChange
+
+#Cave status
+GET         /status                                         @controllers.Status.status
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                                       controllers.Assets.at(path="/public", file)
+
+GET     /_internal_/healthcheck                             controllers.Internal.healthCheck
+GET     /_internal_/version                                 controllers.Internal.version

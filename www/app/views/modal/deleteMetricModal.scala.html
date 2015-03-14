@@ -1,0 +1,25 @@
+@(organizationName: String, teamName: Option[String], metricName: String)
+
+<div class="modal fade" id="confirm-metric-delete-@metricName" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Messages("cave.removeMetric.modal.title") "@metricName"</h4>
+            </div>
+            <div class="modal-body">
+                <p class="confirmationMsg">
+                    @Messages("cave.removeMetric.modal.confirmation")
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a type="button" href="@(teamName match {
+                    case Some(team)=> routes.Metrics.deleteTeamMetric(organizationName, team, metricName)
+                    case _ => routes.Metrics.deleteOrganizationMetric(organizationName, metricName)
+                })" class="btn btn-danger danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>

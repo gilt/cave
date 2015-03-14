@@ -1,0 +1,30 @@
+@(alert: Alert, organizationName: String, teamName: Option[String])
+
+@import views.alerts.GraphHelper
+
+<dl class="dl-horizontal">
+    <br />
+    <dt>Status</dt>
+    <dd>
+        @if(alert.enabled) {
+        <span class="badge alert-success">Enabled</span>
+        } else {
+        <span class="badge alert-danger">Disabled</span>
+        }
+    </dd>
+    <dt>Description</dt>
+    <dd class="alertDescription">@alert.description</dd>
+    <dt>Condition</dt>
+    <dd>@alert.condition</dd>
+    <dt>Period</dt>
+    <dd>@alert.period</dd>
+    <dt>Handbook URL</dt>
+    <dd class="alertDescription">@alert.handbookUrl</dd>
+    <dt>Routing</dt>
+    <dd>@alert.routing.mkString("=")</dd>
+    <dt>Related Metrics</dt>
+    @for(relatedMetric <- alert.relatedMetrics) {
+      <dd><a href='@GraphHelper.generateLink(organizationName, teamName, relatedMetric)' target="_blank">@relatedMetric.name</a></dd>
+    }
+
+</dl>

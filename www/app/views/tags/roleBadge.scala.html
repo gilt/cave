@@ -1,0 +1,8 @@
+@(role: Role)
+
+@role match {
+    case Role.Admin => { <span class="badge alert-danger">Admin</span> }
+    case Role.Viewer => { <span class="badge alert-info">Viewer</span> }
+    case Role.Member => { <span class="badge alert-success">Member</span> }
+    case t => { <span class="badge alert-success">@t</span> }
+}

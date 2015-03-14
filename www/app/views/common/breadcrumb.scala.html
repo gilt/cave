@@ -1,0 +1,14 @@
+@import collection.immutable.ListMap
+@(map: ListMap[String, _])
+@if(map.nonEmpty){
+    <ol class="breadcrumb">
+        @map.dropRight(1).map { link =>
+                @if(link._2.toString.nonEmpty) {
+                    <li><a href="@link._2">@link._1</a></li>
+                } else {
+                    <li class="active">@link._1</li>
+                }
+        }
+        <li class="active">@map.last._1</li>
+    </ol>
+}

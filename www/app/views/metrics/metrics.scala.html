@@ -1,0 +1,45 @@
+@(metrics: Seq[MetricInfo], organizationName: String, teamName: Option[String],
+role: Role,
+breadcrumb: collection.immutable.ListMap[String, _])(implicit request: RequestHeader)
+@import collection.immutable.ListMap
+
+@mainTemplate("CAVE") {
+    @common.breadcrumb(breadcrumb)
+    <div class="row">
+        <div class="col-md-12">
+            @if(role != Role.Viewer){
+                <p>
+                    <a href='alerts' type="button" class="btn btn-default">Alerts</a>
+                </p>
+            }
+            @if(metrics.nonEmpty) {
+                <div class="panel panel-default">
+                    <div class="panel-heading">Metrics</div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            @for(m <- metrics) {
+                                <li class="clearfix list-group-item">
+                                    @if(role == Role.Admin) {
+                                        @modal.deleteMetricModal(organizationName, teamName, m.name)
+                                        <a href="" data-target="#confirm-metric-delete-@m.name" data-toggle="modal">
+                                            <img src='@routes.Assets.at("images/remove.png")'>
+                                        </a>
+                                    }
+                                    @m.name @views.html.tags.metricTags(m.tags)
+                                    <a href="@(teamName match {
+                                        case Some(team)=> routes.Graphs.graphForTeam(organizationName, team, m.name)
+                                        case _ => routes.Graphs.graphForOrganization(organizationName, m.name)
+                                        })" type="button" class="pull-right btn btn-sm btn-primary" >Graph</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            } else {
+                <div class="alert alert-info">
+                    <p>No Metrics defined</p>
+                </div>
+            }
+        </div>
+    </div>
+}

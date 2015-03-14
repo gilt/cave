@@ -1,0 +1,17 @@
+@(menuData: SideMenuData)
+
+@if(menuData.userTeamsInOrgs.nonEmpty) {
+    <ul class="list-group">
+        @menuData.userTeamsInOrgs.map { ut =>
+        <a href="@routes.Teams.team(ut.organizationName, ut.userTeam.name)"
+           class='list-group-item @menuData.selectedTeam.map( team =>
+           if(team.name == ut.userTeam.name && menuData.selectedOrganization.map(_.name).getOrElse("") == ut.organizationName )
+           "active" else "")'>
+            <strong>@ut.userTeam.name</strong> @@ @ut.organizationName
+            @tags.roleBadge(ut.userTeam.role)
+        </a>
+        }
+    </ul>
+} else {
+    <div class="alert alert-info">You are not a member of any team.</div>
+}

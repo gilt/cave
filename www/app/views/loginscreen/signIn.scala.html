@@ -1,0 +1,70 @@
+@(loginForm: Form[controllers.UserLogin])(implicit request: RequestHeader, flash: Flash)
+
+@import play.api.Play
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(views.html.forms.inputFieldConstructor.f) }
+
+@views.html.loginscreen.login{
+<div class="panel panel-default login-panel">
+    <div class="panel-heading">
+        <h3 class="panel-title">Please sign in</h3>
+    </div>
+    <div class="panel-body">
+        @helper.form(action = routes.Authentication.authenticate()) {
+            <fieldset>
+
+
+                @helper.inputText(
+                    loginForm("username"),
+                    'placeholder -> Messages("cave.login.signup.email1"),
+                    'class -> "form-control",
+                    'type -> "email",
+                    'required -> ""
+                )
+
+                @helper.inputPassword(
+                    loginForm("password"),
+                    'placeholder -> Messages("cave.login.signup.password1"),
+                    'class -> "form-control",
+                    'required -> ""
+                )
+                @helper.inputText(
+                    loginForm("landingUrl"),
+                    'type -> "hidden",
+                    '_label -> "",
+                    '_class -> "hidden",
+                    'required -> ""
+                )
+                <div class="form-group">
+                    <p><a href="@routes.PasswordReset.startResetPassword">@Messages("cave.login.login.forgotPassword") </a></p>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+                </div>
+                <div class="clearfix">
+                    <p>@Messages("cave.login.login.signUp") <a href="@routes.Registration.startSignUp">@Messages("cave.login.login.here")</a></p>
+                </div>
+
+            </fieldset>
+        }
+
+        @loginForm.globalError.map { error =>
+        <div class="alert alert-danger">
+            @Messages(error.message)
+        </div>
+        }
+
+        @flash.get("success").map { message =>
+        <div class="alert alert-info">
+            @message
+        </div>
+        }
+
+        @request.flash.get("error").map { msg =>
+        <div class="alert alert-danger">
+            @msg
+        </div>
+        }
+    </div>
+</div>
+}

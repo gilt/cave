@@ -1,0 +1,42 @@
+@(createTeamForm: Form[_])
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(views.html.forms.inputFieldConstructorWithLabels.f) }
+<!-- Modal -->
+<div class="modal fade" id="createNewTeam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">@Messages("cave.organizations.createNewTeam.modal.title")</h4>
+            </div>
+            @helper.form(action = routes.Organizations.handleCreateTeam()) {
+            <div class="modal-body">
+                <fieldset>
+                    @helper.inputText(
+                        createTeamForm("name"),
+                        '_label -> "Team Name",
+                        'placeholder -> "Team Name",
+                        'class -> "form-control",
+                        'type -> "text",
+                    'required -> ""
+                    )
+                    @helper.inputText(
+                        createTeamForm("organization"),
+                        'type -> "hidden",
+                        '_label -> "",
+                        '_class -> "hidden",
+                        'required -> ""
+                    )
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>

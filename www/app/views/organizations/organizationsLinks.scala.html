@@ -1,0 +1,14 @@
+@(menuData: SideMenuData)
+@if(menuData.userOrgs.nonEmpty) {
+    <ul class="list-group">
+        @menuData.userOrgs.filterNot(_.role == Role.Team).map { organization =>
+            <a href="@routes.Organizations.organization(organization.name)"
+               class='list-group-item  @menuData.selectedOrganization.map(o =>
+               if(o.name == organization.name && menuData.selectedTeam.isEmpty) "active" else "")'>@organization.name
+                @tags.roleBadge(organization.role)
+            </a>
+        }
+    </ul>
+} else {
+    <div class="alert alert-info">You are not a member of any organization. You can create a new one.</div>
+}

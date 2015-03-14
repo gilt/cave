@@ -1,0 +1,151 @@
+li.avatar {
+    margin: 6px;
+}
+
+li.avatar a {
+    color: white;
+    margin: 0;
+}
+
+.navbar-header .navbar-brand {
+    margin: 0 20px;
+}
+
+.loginScreen .login-or {
+    position: relative;
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.loginScreen .span-or {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: -2px;
+    margin-left: -25px;
+    background-color: #fff;
+    width: 50px;
+    text-align: center;
+}
+
+.fullscreen_bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-image: url('/assets/images/fullscreen_bg.jpg');
+    background-repeat:repeat;
+}
+
+.loginScreen .panel-default, .loginScreen .jumbotron {
+    position: absolute;
+    top: 100px;
+    height: auto;
+    width: 100%;
+}
+
+.loginScreen .signup-panel form {
+    padding-bottom: 20px;
+}
+
+.loginScreen .signup-panel {
+    top: 250px
+}
+
+.loginScreen .jumbotron p {
+    color: white;
+}
+.loginScreen .jumbotron {
+    background: transparent;
+    color: white;
+    padding-top: 0;
+}
+
+.navAvatar {
+    margin-right: 10px;
+}
+
+.word-wrap {
+    word-wrap: break-word;
+}
+
+a.showToken {
+    cursor: pointer;
+}
+
+span.tokenValue {
+    display: none;
+}
+
+#chart {
+    width:100%;
+    height:600px;
+    margin: 10px 0;
+    float: left;
+}
+
+body > .container {
+    margin-bottom: 100px;
+}
+
+.graph fieldset {
+    margin: 10px 0;
+}
+
+#customDateRangePanel .col-md-6 {
+    padding: 0;
+}
+
+.c3-axis-y-label {
+    font-size: 20px;
+}
+
+#startDate, #endDate {
+    width: 215px;
+}
+
+#customDateRangePanel label, .testAlertPanel label{
+    float: left;
+    vertical-align: middle;
+    line-height: 34px;
+    margin-right: 10px;
+}
+
+.graph fieldset {
+    border: 1px solid #ccc;
+        padding: 10px 0;
+        margin: 10px 0;
+        -webkit-box-shadow:  0px 0px 0px 0px #ccc;
+                box-shadow:  0px 0px 0px 0px #ccc;
+        border-radius: 4px;
+}
+
+.graph legend {
+    color: #777;
+    width:inherit;
+    padding:0 10px;
+    border-bottom:none;
+    font-size: 14px;
+    margin: 0 0 0 5px;
+}
+.graph .twitter-typeahead {
+    width:100%;
+}
+
+#errorModal .modal-header {
+    border-radius: 5px 5px 0 0;
+}
+
+.c3-region.alertRegion, #chart .c3-region {
+    fill: red;
+}
+.alerts .list-group-item:hover {
+    background: #f1f1f1;
+    cursor: pointer
+}
