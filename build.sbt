@@ -105,6 +105,8 @@ lazy val scheduler = project
   .settings(bashScriptSettings: _*)
   .settings(instrumentSettings: _*)
   .settings(commonScoverageSettings: _*)
+  .settings(parallelExecution in ScoverageTest := false: _*)
+  .settings(parallelExecution in Test := false: _*)
   .settings(commonDockerSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
