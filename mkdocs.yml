@@ -1,5 +1,5 @@
 site_name: CAVE LLC
-repo_url: https://github.com/gilt/cavellc/
+repo_url: https://github.com/gilt/cave/
 pages:
 - ['index.md', 'Introduction']
 - ['deployment.md', 'Introduction', 'Deployment guide']
