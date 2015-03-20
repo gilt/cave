@@ -3,7 +3,7 @@
 Aside from the CAVE micro services, the following requirements must be met:
 
   * a Postgres database instance for storing configuration information. The database must be bootstrapped with [Schema Evolution Manager](https://github.com/gilt/schema-evolution-manager), please see the `schema` folder in the project for more information.
-  * an InfluxDB cluster, v0.8.x. We are using a round-robin DNS to spread tge load uniformly across the cluster.
+  * an InfluxDB cluster, v0.8.x. We are using a round-robin DNS to spread the load uniformly across the cluster.
   * a SendGrid account (or something similar) for sending emails. If you have your own SMTP server, use that.
   * an Amazon Kinesis stream for raw data. This could be replaced with Kafka or similar, but there's no support for different queueing systems.
   * an Amazon SNS topic and Amazon SQS queues for sending configuration changes from API to all schedulers. This can also be replaced with other PubSub mechanisms, but there's no support for anything else.
