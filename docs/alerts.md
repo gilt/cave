@@ -12,7 +12,7 @@ Also, __a period__. This tells CAVE how often to evaluate the _condition_. This 
 
 Next, a boolean value for __enabled__. A value of `false` for this flag allows an alert to be defined, but not evaluated. If `true`, the alert is evaluated periodically, with the specified _period_.
 
-Finally, the __routing__ is a metadata container that instructs CAVE how to deliver the alert, when the _condition_ is met. This field is optional, and, by default, CAVE will POST an alert as JSON to the organization URL. In addition to that, we support [PagerDuty integration](#pagerduty).
+Finally, the __routing__ is a metadata container that instructs CAVE how to deliver the alert when the _condition_ is met. This field is optional and the value depends on the delivery mechanism being integrated with. By default, CAVE will simply POST an alert as JSON to the organization URL. In addition to that we support [PagerDuty integration](#pagerduty).
 
 ### [Alert Grammar](id:grammar)
 The _condition_ string specifies what the alert is for, what metric or metrics should be evaluated to detect a problem. There are 2 formats that we can parse: the comparison of two __data sources__ and the missing data condition.
@@ -46,9 +46,7 @@ This alert will be triggered when the heartbeat metric of svc-important hasn’t
 If you're using PagerDuty, you need to do two things. First, you need to set the organization's notification URL to be the PagerDuty API URL:
 `https://events.pagerduty.com/generic/2010-04-15/create_event.json`
 
-Next, you need to create generic API services and use their service API keys when defining alerts in CAVE.
-
-For an alert to create incidents in PagerDuty under a specific API service, put the service API key in the `routing` field of the alert configuration, like this:
+Next, you need to create PagerDuty API Services and use the Service API keys in the `routing` field when defining alerts in CAVE. I.e.
 
 ```
 {
@@ -60,4 +58,4 @@ For an alert to create incidents in PagerDuty under a specific API service, put 
 }
 ```
 
-If an alert like this fires, CAVE will create an incident for the given service API key, which should page the escalation policy attached to that service in PagerDuty.
+When an alert fires, CAVE will create an incident for the given Service API key, which should trigger the escalation policy attached to that PagerDuty Service.
