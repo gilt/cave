@@ -46,17 +46,3 @@ When you design your naming schema, keep these suggestions in mind:
 * Think about how you may want to drill down when querying.
 * Don't use too many tags, keep it to a fairly small number, usually up to 4 or 5 tags.
 * The supported grammar for metric names, tag names and tag values is: `[a-zA-Z][_a-zA-Z0-9.-]*` (letters, digits, underscore, dot and dash, starting with a letter).
-
-#### Aggregations
-To obtain a single time series from multiple that match a metric name and a given set of tags, CAVE must user an aggregator, which is a function, and a time range for the aggregation. The end result is a single time series that has data points at the specified time range, and each value is obtained from the multiple time series that matched the query.
-
-In the example above, if `sys.cpu.user` has a value between `0` and `100` for each `cpu` and each `host`, then the time series for one host might be obtained as an average of the metric for the individual cores. The aggregation period could be one minute, and then the resulting time series will have a value for every minute.
-
-`sys.cpu.user [host: webserver01].avg.1m`
-
-The following aggregators are supported:
-
-* `count`: number of events
-* `min`, `max`, `mean`, `mode`, `median`, `sum`, `stddev`: statistical aggregators
-* `p99`, `p999`, `p95`, `p90`: percentile aggregators
-
