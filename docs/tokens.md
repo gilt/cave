@@ -12,6 +12,4 @@ The idea is that a security token will be placed somewhere in code or configurat
 
 A special note must be made with regard to Organization tokens. These can be used to store data not only at the organization level, but also for any team under that organization. This is particularly useful if a distributed data model is used, but there are applications that need to publish metrics for different teams.
 
-At Gilt, we have developed a service that checks the health of every instance of every service. This service knows what services we have and what hosts they are deployed to from our application service. Every minute, it will check the health by posting an HTTP request to every instance, and it will publish the result as a healthcheck metric to the team that owns the service.
-
-Thus, every service owner will get healthcheck metrics in their CAVE team for every service they own. It is then up to them to create appropriate alerts based on these metrics.
+For example, at Gilt we have developed a service that checks the health of all of our services at regular intervals (by calling each service's healthcheck endpoint). It publishes the results of these checks as a healthcheck metric to the CAVE team that owns the service. Thus, every service owner will get healthcheck metrics for every service they own. It is then up to them to create appropriate alerts based on these metrics.
