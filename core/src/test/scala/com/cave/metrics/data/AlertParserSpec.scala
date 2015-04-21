@@ -1,6 +1,7 @@
 package com.cave.metrics.data
 
 import com.cave.metrics.data.evaluator.{Aggregator, AlertParser}
+import org.joda.time.LocalTime
 
 import scala.concurrent.duration._
 import org.scalatest._
@@ -377,6 +378,29 @@ class AlertParserSpec extends FlatSpec with Matchers with AlertParser with Alert
         timeOfDay.getMinuteOfHour should be (25)
         timeOfDay.getSecondOfMinute should be (36)
         timeOfDay.getMillisOfSecond should be (0)
+
+      case _ => fail("Expected a LocalTime to be parsed")
+    }
+  }
+
+  "An alert period" should "be specified as a duration" in {
+    parseAll(anyPeriod, "1m") match {
+      case Success(duration, _) =>
+        duration should be (1.minutes)
+
+      case _ => fail("Expected a duration to be parsed")
+    }
+  }
+
+  it should "be parsed as a fixed time as well" in {
+    parseAll(anyPeriod, "@13:00") match {
+      case Success(period, _) =>
+        period shouldBe a[LocalTime]
+        val localTime = period.asInstanceOf[LocalTime]
+        localTime.getHourOfDay should be (13)
+        localTime.getMinuteOfHour should be (0)
+        localTime.getSecondOfMinute should be (0)
+        localTime.getMillisOfSecond should be (0)
 
       case _ => fail("Expected a LocalTime to be parsed")
     }

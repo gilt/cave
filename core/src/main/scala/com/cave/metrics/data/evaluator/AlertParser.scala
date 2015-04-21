@@ -113,6 +113,8 @@ trait AlertParser extends JavaTokenParsers {
 
   def daily: Parser[LocalTime] = dailySeconds | dailyMinutes | dailyHours
 
+  def anyPeriod = duration | daily
+
   def repeater: Parser[Int] = "at least" ~> wholeNumber <~ "times" ^^ {
     case num => num.toInt
   }
