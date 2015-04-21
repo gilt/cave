@@ -32,13 +32,13 @@ Data received by CAVE will show up under **Metrics** for the organization or tea
 
 ### Plotting Data
 
-Each metric received has a **Graph** button attached. This button opens the metric graph page, which allows you to create a ploy of your metric. First, you need to specify an aggregator and the aggregation period. Next, you select a time period for which the plot should be created. Then click the **Plot** button to generate the graph.
+Each metric received has a **Graph** button attached. This button opens the metric graph page, which allows you to create a plot of your metric. First, you need to specify an aggregator and the aggregation period. Next, you select a time period for which the plot should be created. Then click the **Plot** button to generate the graph.
 
 In addition to these controls, there's a window that contains all the tag names that have been associated with this metric. By inputting values for specific tags, you can create a plot of data filtered for that particular tag value.
 
-The plot area contains two graphs. The larger area at the top constitutes the detail view, while the narrow area at the bottom is the thumbnail view. Clicking and draging smaller areas across the thumbnail view will provide a zoom of the selected period into the detail view. Single click in the thumbnail view will reset the detail view to the whole graph period.
+The plot area contains two graphs. The larger area at the top constitutes the detail view, while the narrow area at the bottom is the thumbnail view. By clicking and dragging to select smaller areas of the thumbnail view, you can zoom into the selected period in the detail view. Single click in the thumbnail view to reset the detail view.
 
-The bottom part of the graph page is related to Alert conditions. Prior to creating an alert, you can check the grammar on existing data, without actually triggering any events. This is possible by inputting an alert condition, selecting a period for the alert evaluation and clicking the **Evaluate Alert** button. The result should be over imposed on the existing graph, showing a value of zero for alert condition GREEN (alert condition not satisfied) and a value of one for alert condition RED (alert condition satisfied). See the [this page](alerts.md) for more details.
+The bottom part of the graph page is related to Alert conditions. Prior to creating an alert you can check the grammar on existing data without actually triggering any events. This is possible by inputting an alert condition, selecting a period for the alert evaluation and clicking the **Evaluate Alert** button. The result should be superimposed on the graph, showing a value of zero for alert condition GREEN (alert condition not satisfied) and a value of one for alert condition RED (alert condition satisfied). See the [this page](alerts.md) for more details.
 
 ### Creating Alerts
 
