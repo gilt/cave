@@ -96,6 +96,17 @@ class AlertManagerSpec extends AbstractDataManagerSpec with MockitoSugar {
     }
   }
 
+  it should "correctly parse alert with time-of-day daily period" in {
+    val org = dm.getOrganization(GiltOrgName).get.get
+
+    am.createOrganizationAlert(org, Alert(None, "alert description", true, "@12:34", "orders[].sum.10m >= 10", None, None)) match {
+      case Success(Some(alert)) =>
+        alert.id.isDefined should be(true)
+
+      case _ => fail("Expected alert creation to succeed")
+    }
+  }
+
   it should "add metrics to the alerts when fetching" in {
     val org = dm.getOrganization(GiltOrgName).get.get
     val team = dm.getTeam(org, testTeamName).get.get
