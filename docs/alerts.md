@@ -8,7 +8,10 @@ Next, __a description__. This is a string that should describe what the alert is
 * _"No heartbeat received from svc-important for 5 minutes"_
 * _"The 5 minutes p99 of Response Time for svc-important is above SLA of 1.5 seconds for more than 15 minutes"_.
 
-Also, __a period__. This tells CAVE how often to evaluate the _condition_. This is expressed as a number followed by a letter: `s` for seconds, `m` for minutes, `h` for hours, or `d` for days. For example, a value of `5m` means `5 minutes`.
+Also, __a period__. This tells CAVE how often to evaluate the _condition_. This can be expressed in one of two ways.
+
+* To specify the period between each evaluation use a number followed by a letter: `s` for seconds, `m` for minutes, `h` for hours, or `d` for days. For example, a value of `5m` means `Evaluate every 5 minutes`.
+* To specify a particular time every day when the alert should be evaluated use @hh:mm:ss. For example  `@13:30:00` means `Evaluate every day at 13:30:00 UTC`
 
 Next, a boolean value for __enabled__. A value of `false` for this flag allows an alert to be defined, but not evaluated. If `true`, the alert is evaluated periodically, with the specified _period_.
 

@@ -71,7 +71,7 @@ class AlertManager(dataManager: DataManager, influxClientFactory: InfluxClientFa
     val clusterName = team map(_.influxCluster) getOrElse organization.influxCluster
     implicit val (client, context) = influxClientFactory.getClient(clusterName)
 
-    parseAll(duration, alert.period) match {
+    parseAll(anyPeriod, alert.period) match {
       case Success(_, _) =>
         parseAll(anyAlert, alert.condition) match {
           case Success(SimpleAlert(left, _, right, _, _), _) =>
