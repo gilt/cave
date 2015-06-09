@@ -24,7 +24,7 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
 lazy val commonDockerSettings: Seq[Def.Setting[_]] = Seq(
   maintainer in Docker := "TWAIN <twain@gilt.com>",
   dockerBaseImage := "cavellc/ubuntu-openjdk-7-jre-headless:12.04",
-  dockerRepository := Some("cavellc"),
+  dockerRepository := Some("giltcommon"),
   defaultLinuxInstallLocation in Docker := "/cavellc"
 )
 
