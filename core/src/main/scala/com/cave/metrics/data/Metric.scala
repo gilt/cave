@@ -4,6 +4,7 @@ import java.security.MessageDigest
 
 import com.cave.metrics.data.evaluator.Aggregator
 import com.cave.metrics.data.evaluator.Aggregator.Aggregator
+import org.apache.commons.lang3.RandomStringUtils
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.functional.syntax._
@@ -126,16 +127,9 @@ object MetricBulk {
 case class Metric(name: String, timestamp: Long, value: Double, tags: Map[String, String]) {
 
   /**
-   * Compute a partition key for storing in Kinesis (128 characters)
-   *
-   * @return  a string representation of a SHA-512 hash of the string built from name + tags
+   * Generate a random string of 32 characters to be used as Kinesis hash
    */
-  def partitionKey: String = {
-    val key = tags.foldLeft(name)(_ + _)
-    val md = MessageDigest.getInstance("SHA-512")
-    md.update(key.getBytes())
-    md.digest().map("%02x" format _).mkString
-  }
+  def partitionKey: String = RandomStringUtils.randomNumeric(32)
 
   final val MaximumStringLength = 128
   final val MaximumTagCount = 10
