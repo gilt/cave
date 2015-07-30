@@ -51,11 +51,10 @@ class AwsWrapper(awsConfig: AwsConfig) {
       .withMaxNumberOfMessages(MaxNumberOfMessages)
       .withWaitTimeSeconds(awsConfig.longPollTimeInSeconds)
 
-
     future {
       blocking {
-        val result = sqsClient.receiveMessageAsync(request).get
-        val items = result.getMessages.asScala map { message =>
+        val results = 1 to 10 map (_ => sqsClient.receiveMessage(request))
+        val items = results flatMap (_.getMessages.asScala) map { message =>
           Log.debug(s"Received a message[${message.getMessageId}], with contents: ${message.getBody}")
           new WorkItem(
             itemId = message.getMessageId,
