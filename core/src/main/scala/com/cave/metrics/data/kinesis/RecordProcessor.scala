@@ -35,8 +35,6 @@ class RecordProcessor(config: AwsConfig, sink: DataSink) extends IRecordProcesso
     }
   }
 
-  import scala.concurrent.ExecutionContext.Implicits.global
-
   override def processRecords(records: JList[Record], check: IRecordProcessorCheckpointer): Unit = {
     val metrics = (records.asScala map convert).filter(_.isSuccess)
     if (metrics.size == records.size()) {
@@ -63,7 +61,7 @@ class RecordProcessor(config: AwsConfig, sink: DataSink) extends IRecordProcesso
       }
     } recover {
       case e: Exception =>
-        log.warn(s"Failed to checkpoint shard ${shardId}: ${e.getMessage}")
+        log.warn(s"Failed to checkpoint shard $shardId: ${e.getMessage}")
     }
   }
 }

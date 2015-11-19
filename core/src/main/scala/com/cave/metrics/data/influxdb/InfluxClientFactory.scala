@@ -60,6 +60,6 @@ class InfluxClientFactory(config: InfluxConfiguration) {
 
   def close(): Unit = {
     defaultClient._1.close()
-    alternates map { case (_, (client, _)) => client.close() }
+    alternates foreach { case (_, (client, _)) => client.close() }
   }
 }
