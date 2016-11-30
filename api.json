@@ -287,7 +287,7 @@
           "name": "tags",
           "type": "map",
           "description": "The metric tags, which are key-value pairs of strings. These describe and categorise the metric and where/how it was collected.",
-          "required": false
+          "default": "{}"
         },
         {
           "name": "timestamp",
