@@ -1468,7 +1468,6 @@
               "name": "limit",
               "type": "integer",
               "description": "Maximum number of data points to retrieve.",
-              "required": false,
               "default": 60
             }
           ],
@@ -1532,7 +1531,6 @@
               "name": "limit",
               "type": "integer",
               "description": "Maximum number of data points to retrieve.",
-              "required": false,
               "default": 60
             }
           ],
