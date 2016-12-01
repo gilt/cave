@@ -5,7 +5,7 @@ import data.TestJsonData
 import init.{AwsWrapper, MailService}
 import org.jboss.netty.handler.codec.http.HttpHeaders
 import org.joda.time.DateTime
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.specs2.mutable.Specification
 import play.api.GlobalSettings
 import play.api.mvc.Controller

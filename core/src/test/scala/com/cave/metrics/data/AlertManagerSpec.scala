@@ -4,7 +4,7 @@ import com.cave.metrics.data.influxdb.{InfluxClientFactory, InfluxClient}
 import com.cave.metrics.data.postgresql.{AbstractDataManagerSpec, PostgresCacheDataManagerImpl}
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration.FiniteDuration

@@ -2,7 +2,7 @@ package com.cave.metrics.data.influxdb
 
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
 import scala.concurrent.duration._
 

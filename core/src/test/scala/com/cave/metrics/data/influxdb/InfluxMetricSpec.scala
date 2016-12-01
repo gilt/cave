@@ -1,7 +1,7 @@
 package com.cave.metrics.data.influxdb
 
 import com.cave.metrics.data.Metric
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
 
 class InfluxMetricSpec extends FlatSpec with Matchers with MockitoSugar {

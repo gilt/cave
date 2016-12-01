@@ -3,7 +3,7 @@ package com.cave.metrics.data.metrics
 import java.util.concurrent.TimeUnit
 
 import com.codahale.metrics._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{Matchers, FlatSpec}
 import org.mockito.Mockito._
 import com.cave.metrics.data.{Metric => CaveMetric}
