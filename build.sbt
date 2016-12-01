@@ -17,7 +17,7 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
   libraryDependencies ++= Seq(
     "io.dropwizard.metrics" % "metrics-core" % "3.1.0",
     "io.dropwizard.metrics" % "metrics-jvm" % "3.1.0",
-    "org.scalatest" %% "scalatest" % "2.1.2" % "test"
+    "org.scalatest" %% "scalatest" % "3.0.1" % "test"
   )
 )
 

@@ -7,7 +7,7 @@ import org.mockito.Matchers.{any => mockAny, eq => mockEq}
 import org.mockito.Mockito
 import org.mockito.Mockito._
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{BeforeAndAfter, FlatSpec, Matchers}
 
 import scala.concurrent.ExecutionContext.Implicits.global

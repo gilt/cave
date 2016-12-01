@@ -5,7 +5,7 @@ import akka.testkit.TestKit
 import com.cave.metrics.data.evaluator.DataFetcher
 import com.cave.metrics.data.influxdb.InfluxClientFactory
 import com.cave.metrics.data.{AlertJsonData, Check}
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
 
 import scala.concurrent.{ExecutionContext, Future}

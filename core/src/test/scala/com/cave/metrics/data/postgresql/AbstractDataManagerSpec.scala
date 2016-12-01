@@ -6,7 +6,7 @@ import com.cave.metrics.data.postgresql.Tables._
 import com.cave.metrics.data.{User, AwsConfig, Token}
 import com.typesafe.config.ConfigFactory
 import org.apache.commons.logging.LogFactory
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{BeforeAndAfterAll, FlatSpec, Matchers}
 
 import scala.slick.driver.H2Driver.simple._

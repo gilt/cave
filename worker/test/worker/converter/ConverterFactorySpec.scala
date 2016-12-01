@@ -2,7 +2,7 @@ package worker.converter
 
 import com.typesafe.config.Config
 import org.scalatest.{FlatSpec, Matchers}
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.mockito.Mockito._
 import scala.collection.JavaConverters._
 
