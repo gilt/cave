@@ -9,7 +9,7 @@ import init.AwsWrapper
 import org.mockito.Matchers.any
 import org.mockito.Mockito._
 import org.mockito.{ArgumentCaptor, Mockito}
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, WordSpecLike}
 import org.specs2.matcher.ShouldMatchers
 
