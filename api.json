@@ -287,7 +287,7 @@
           "name": "tags",
           "type": "map",
           "description": "The metric tags, which are key-value pairs of strings. These describe and categorise the metric and where/how it was collected.",
-          "required": false
+          "default": "{}"
         },
         {
           "name": "timestamp",
@@ -434,7 +434,6 @@
           "method": "GET",
           "path": "/status",
           "description": "Get list of current and recent issues affecting CAVE",
-          "interface": "getStatus",
           "responses": {
             "200": {
               "type": "status"
@@ -450,7 +449,6 @@
           "method": "POST",
           "path": "/register",
           "description": "Register an email address for a new user",
-          "interface": "registerUser",
           "parameters": [
             {
               "name": "email",
@@ -468,7 +466,6 @@
           "method": "POST",
           "path": "/confirm",
           "description": "Confirm an email address and complete user registration",
-          "interface": "createUser",
           "parameters": [
             {
               "name": "first_name",
@@ -501,7 +498,6 @@
           "method": "POST",
           "path": "/login",
           "description": "Authenticate a user for using the CAVE API",
-          "interface": "loginUser",
           "parameters": [
             {
               "name": "email",
@@ -524,7 +520,6 @@
           "method": "POST",
           "path": "/forgot-password",
           "description": "Request password reset for a user",
-          "interface": "requestResetPassword",
           "parameters": [
             {
               "name": "email",
@@ -542,7 +537,6 @@
           "method": "POST",
           "path": "/reset-password",
           "description": "Reset the password for a user",
-          "interface": "resetPassword",
           "parameters": [
             {
               "name": "password",
@@ -565,7 +559,6 @@
           "method": "GET",
           "path": "/info",
           "description": "Retrieve user information",
-          "interface": "getUser",
           "responses": {
             "200": {
               "type": "user"
@@ -576,7 +569,6 @@
           "method": "PATCH",
           "path": "/info",
           "description": "Update user information",
-          "interface": "updateUser",
           "parameters": [
             {
               "name": "first_name",
@@ -655,7 +647,6 @@
         {
           "method": "POST",
           "description": "Create a new organization.",
-          "interface": "createOrganization",
           "parameters": [
             {
               "name": "name",
@@ -683,7 +674,6 @@
           "method": "GET",
           "path": "/:name",
           "description": "Retrieve organization with given name.",
-          "interface": "getOrganization",
           "parameters": [
             {
               "name": "name",
@@ -701,7 +691,6 @@
           "method": "PATCH",
           "path": "/:name",
           "description": "Update the organization with the given name.",
-          "interface": "updateOrganization",
           "parameters": [
             {
               "name": "email",
@@ -726,7 +715,6 @@
           "method": "DELETE",
           "path": "/:name",
           "description": "Delete the organization with the given name.",
-          "interface": "deleteOrganization",
           "parameters": [
             {
               "name": "name",
@@ -744,7 +732,6 @@
         {
           "method": "DELETE",
           "path": "/:name/metric-names/:metric",
-          "interface": "deleteOrganizationMetrics",
           "responses": {
             "204": {
               "type": "unit"
@@ -755,7 +742,6 @@
           "method": "GET",
           "path": "/:name/users",
           "description": "Retrieve organization users.",
-          "interface": "getOrganizationUsers",
           "parameters": [
             {
               "name": "name",
@@ -773,7 +759,6 @@
           "method": "POST",
           "path": "/:name/users",
           "description": "Add user to organization.",
-          "interface": "createOrganizationUser",
           "parameters": [
             {
               "name": "name",
@@ -801,7 +786,6 @@
           "method": "PATCH",
           "path": "/:name/users/:email",
           "description": "Modify role for user in organization.",
-          "interface": "updateOrganizationUser",
           "parameters": [
             {
               "name": "name",
@@ -829,7 +813,6 @@
           "method": "DELETE",
           "path": "/:name/users/:email",
           "description": "Delete user from organization.",
-          "interface": "deleteOrganizationUser",
           "parameters": [
             {
               "name": "name",
@@ -858,7 +841,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams",
           "description": "Retrieve the list of teams associated with the given organization.",
-          "interface": "getTeams",
           "parameters": [
             {
               "name": "organization",
@@ -876,7 +858,6 @@
           "method": "POST",
           "path": "/organizations/:org/teams",
           "description": "Create a new team for the given organization.",
-          "interface": "createTeam",
           "parameters": [
             {
               "name": "org",
@@ -899,7 +880,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams/:team",
           "description": "Retrieve the team with given team name for the given organization.",
-          "interface": "getTeam",
           "parameters": [
             {
               "name": "organization",
@@ -921,7 +901,6 @@
         {
           "method": "DELETE",
           "path": "/organizations/:organization_name/teams/:team_name/metric-names/:metric",
-          "interface": "deleteTeamMetrics",
           "responses": {
             "204": {
               "type": "unit"
@@ -932,7 +911,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams/:team/users",
           "description": "Retrieve the users for the team with given team name for the given organization.",
-          "interface": "getTeamUsers",
           "parameters": [
             {
               "name": "organization",
@@ -955,7 +933,6 @@
           "method": "POST",
           "path": "/organizations/:organization/teams/:team/users",
           "description": "Add user to the team with given team name for the given organization.",
-          "interface": "createTeamUser",
           "parameters": [
             {
               "name": "organization",
@@ -988,7 +965,6 @@
           "method": "PATCH",
           "path": "/organizations/:organization/teams/:team/users/:email",
           "description": "Modify role of user in team.",
-          "interface": "updateTeamUser",
           "parameters": [
             {
               "name": "organization",
@@ -1021,7 +997,6 @@
           "method": "DELETE",
           "path": "/organizations/:organization/teams/:team/users/:email",
           "description": "Remove user from team.",
-          "interface": "deleteTeamUser",
           "parameters": [
             {
               "name": "organization",
@@ -1049,7 +1024,6 @@
           "method": "DELETE",
           "path": "/organizations/:organization/teams/:team",
           "description": "Delete the team with the given name from the given organization.",
-          "interface": "deleteTeam",
           "parameters": [
             {
               "name": "organization",
@@ -1079,7 +1053,6 @@
           "method": "GET",
           "path": "/organizations/:organization/tokens",
           "description": "Retrieve the list of tokens associated with the given organization.",
-          "interface": "getOrganizationTokens",
           "parameters": [
             {
               "name": "organization",
@@ -1097,7 +1070,6 @@
           "method": "POST",
           "path": "/organizations/:organization/tokens",
           "description": "Create a new token for the given organization.",
-          "interface": "createOrganizationToken",
           "parameters": [
             {
               "name": "organization",
@@ -1120,7 +1092,6 @@
           "method": "GET",
           "path": "/organizations/:organization/tokens/:id",
           "description": "Retrieve the token with given token ID for the given organization.",
-          "interface": "getOrganizationToken",
           "parameters": [
             {
               "name": "organization",
@@ -1143,7 +1114,6 @@
           "method": "DELETE",
           "path": "/organizations/:organization/tokens/:id",
           "description": "Delete the token with the given ID from the given organization.",
-          "interface": "deleteOrganizationToken",
           "parameters": [
             {
               "name": "organization",
@@ -1167,7 +1137,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams/:team/tokens",
           "description": "Retrieve the list of tokens associated with the given team of the given organization.",
-          "interface": "getTeamTokens",
           "parameters": [
             {
               "name": "organization",
@@ -1190,7 +1159,6 @@
           "method": "POST",
           "path": "/organizations/:organization/teams/:team/tokens",
           "description": "Create a new token for the given team of the given organization.",
-          "interface": "createTeamToken",
           "parameters": [
             {
               "name": "organization",
@@ -1218,7 +1186,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams/:team/tokens/:id",
           "description": "Retrieve the token with given token ID for the given team of the given organization.",
-          "interface": "getTeamToken",
           "parameters": [
             {
               "name": "organization",
@@ -1246,7 +1213,6 @@
           "method": "DELETE",
           "path": "/organizations/:organization/teams/:team/tokens/:id",
           "description": "Delete the token with the given ID from the given team of the given organization.",
-          "interface": "deleteTeamToken",
           "parameters": [
             {
               "name": "organization",
@@ -1281,7 +1247,6 @@
           "method": "POST",
           "path": "/organizations/:organization/metrics",
           "description": "Create organization metric data.",
-          "interface": "createOrganizationMetrics",
           "parameters": [
             {
               "name": "organization",
@@ -1305,7 +1270,6 @@
           "method": "POST",
           "path": "/organizations/:organization/teams/:team/metrics",
           "description": "Create team metric data.",
-          "interface": "createTeamMetrics",
           "parameters": [
             {
               "name": "organization",
@@ -1334,7 +1298,6 @@
           "method": "GET",
           "path": "/organizations/:organization/metric-names",
           "description": "Retrieve information about available organization metrics.",
-          "interface": "listOrganizationMetrics",
           "parameters": [
             {
               "name": "organization",
@@ -1353,7 +1316,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams/:team/metric-names",
           "description": "Retrieve information about available team metrics.",
-          "interface": "listTeamMetrics",
           "parameters": [
             {
               "name": "organization",
@@ -1377,7 +1339,6 @@
           "method": "GET",
           "path": "/organizations/:organization/check-metrics",
           "description": "Evaluate data for organization metrics.",
-          "interface": "getOrganizationMetricsCheck",
           "parameters": [
             {
               "name": "organization",
@@ -1418,7 +1379,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams/:team/check-metrics",
           "description": "Evaluate data for team metrics.",
-          "interface": "getTeamMetricsCheck",
           "parameters": [
             {
               "name": "organization",
@@ -1464,7 +1424,6 @@
           "method": "GET",
           "path": "/organizations/:organization/metrics",
           "description": "Retrieve data for an organization metric.",
-          "interface": "getOrganizationMetrics",
           "parameters": [
             {
               "name": "organization",
@@ -1509,7 +1468,6 @@
               "name": "limit",
               "type": "integer",
               "description": "Maximum number of data points to retrieve.",
-              "required": false,
               "default": 60
             }
           ],
@@ -1524,7 +1482,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams/:team/metrics",
           "description": "Retrieve data for a team metric.",
-          "interface": "getTeamMetrics",
           "parameters": [
             {
               "name": "organization",
@@ -1574,7 +1531,6 @@
               "name": "limit",
               "type": "integer",
               "description": "Maximum number of data points to retrieve.",
-              "required": false,
               "default": 60
             }
           ],
@@ -1594,7 +1550,6 @@
           "method": "GET",
           "path": "/organizations/:organization/alerts",
           "description": "Retrieve the list of alerts associated with the given organization.",
-          "interface": "getOrganizationAlerts",
           "parameters": [
             {
               "name": "organization",
@@ -1627,7 +1582,6 @@
           "method": "POST",
           "path": "/organizations/:organization/alerts",
           "description": "Create a new alert for the given organization.",
-          "interface": "createOrganizationAlert",
           "parameters": [
             {
               "name": "organization",
@@ -1678,7 +1632,6 @@
           "method": "PATCH",
           "path": "/organizations/:organization/alerts/:id",
           "description": "Update an alert for the given organization.",
-          "interface": "updateOrganizationAlert",
           "parameters": [
             {
               "name": "organization",
@@ -1732,7 +1685,6 @@
           "method": "GET",
           "path": "/organizations/:organization/alerts/:id",
           "description": "Retrieve the alert with given alert ID for the given organization.",
-          "interface": "getOrganizationAlert",
           "parameters": [
             {
               "name": "organization",
@@ -1755,7 +1707,6 @@
           "method": "DELETE",
           "path": "/organizations/:organization/alerts/:id",
           "description": "Delete the alert with the given ID from the given organization.",
-          "interface": "deleteOrganizationAlert",
           "parameters": [
             {
               "name": "organization",
@@ -1779,7 +1730,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams/:team/alerts",
           "description": "Retrieve the list of alerts associated with the given team of the given organization.",
-          "interface": "getTeamAlerts",
           "parameters": [
             {
               "name": "organization",
@@ -1817,7 +1767,6 @@
           "method": "POST",
           "path": "/organizations/:organization/teams/:team/alerts",
           "description": "Create a new alert for the given team of the given organization.",
-          "interface": "createTeamAlert",
           "parameters": [
             {
               "name": "organization",
@@ -1873,7 +1822,6 @@
           "method": "PATCH",
           "path": "/organizations/:organization/teams/:team/alerts/:id",
           "description": "Update an alert for the given team of the given organization.",
-          "interface": "updateTeamAlert",
           "parameters": [
             {
               "name": "organization",
@@ -1932,7 +1880,6 @@
           "method": "GET",
           "path": "/organizations/:organization/teams/:team/alerts/:id",
           "description": "Retrieve the alert with given alert ID for the given team of the given organization.",
-          "interface": "getTeamAlert",
           "parameters": [
             {
               "name": "organization",
@@ -1960,7 +1907,6 @@
           "method": "DELETE",
           "path": "/organizations/:organization/teams/:team/alerts/:id",
           "description": "Delete the alert with the given ID from the given team of the given organization.",
-          "interface": "deleteTeamAlert",
           "parameters": [
             {
               "name": "organization",
